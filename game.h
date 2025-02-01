@@ -1,4 +1,5 @@
 #pragma once
+#include <LDtkLoader/Project.hpp>
 
 namespace Tmpl8 {
 
@@ -17,6 +18,7 @@ public:
 	void KeyDown( int key ) { /* implement if you want to handle keys */ }
 private:
 	Surface* screen;
+	ldtk::Project project; 
 };
 
 }; // namespace Tmpl8

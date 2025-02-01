@@ -2,6 +2,10 @@
 #include "surface.h"
 #include <cstdio> //printf
 
+#include <LDtkLoader/Project.hpp>
+
+
+
 namespace Tmpl8
 {
 	// -----------------------------------------------------------
@@ -9,6 +13,16 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	void Game::Init()
 	{
+		
+		
+
+		ldtk::Project ldtk_project;
+		ldtk_project.loadFromFile("my_project.ldtk");
+
+		const auto& world = ldtk_project.getWorld("World");
+		const auto& level1 = world.getLevel("Level_0");
+		const auto& bg_layer = level1.getLayer("World");
+		for (const auto& tile : bg_layer.allTiles()){}
 	}
 	
 	// -----------------------------------------------------------
@@ -18,23 +32,9 @@ namespace Tmpl8
 	{
 	}
 
-	static Sprite rotatingGun(new Surface("assets/aagun.tga"), 36);
-	static int frame = 0;
-
-	// -----------------------------------------------------------
-	// Main application tick function
-	// -----------------------------------------------------------
 	void Game::Tick(float deltaTime)
 	{
-		// clear the graphics window
-		screen->Clear(0);
-		// print something in the graphics window
-		screen->Print("hello world", 2, 2, 0xffffff);
-		// print something to the text window
-		printf("this goes to the console window.\n");
-		// draw a sprite
-		rotatingGun.SetFrame(frame);
-		rotatingGun.Draw(screen, 100, 100);
-		if (++frame == 36) frame = 0;
+		
 	}
+
 };
