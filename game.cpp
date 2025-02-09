@@ -30,8 +30,36 @@ namespace Tmpl8
 
         level1 = &world.getLevel(0);
         bg_layer = &level1->getLayer("Ground");
+
+		const auto& tilesLayer = level1->getLayer("Ground");
+        const auto& gridSize = tilesLayer.getGridSize();
+        const auto& tileSet = tilesLayer.getTileset();
+        
+		Surface Tiles("assets/Sprout Lands/Tilesets/Hills.png");
+
+        int TilePosX = 1;
+        int TilePosY = 1;
+		int TileMapSizeX = Tiles.GetWidth(); //getting the width of the full tilemap
+		int TileMapSizeY = Tiles.GetHeight(); //getting the height of the full tilemap
+        int TilePosOffsetY = 0;
+		int TilePosOffsetX = 0;
+        
+        for (int Tile_PosY = 1; Tile_PosY <= TileMapSizeY / 16; Tile_PosY++) {
+             
+            for (int Tile_PosX = TilePosX; Tile_PosX <= TileMapSizeX / 16; Tile_PosX++) {
+				TilePosOffsetX = 16 * Tile_PosX;  // setting the X position to the next tile
+				std::cout << TilePosOffsetX << std::string(" X") << std::endl; // printing the X position
+                TilePosX = Tile_PosX; 
+            }
+
+			TilePosX = 0; // resetting the X position to 0
+			TilePosOffsetY = 16 * Tile_PosY; // setting the Y position to the next row
+			std::cout << TilePosOffsetY << std::string(" Y") << std::endl; // printing the Y position
+			TilePosY = Tile_PosY; 
+		}
     }
 
+    
 
 
     // -----------------------------------------------------------
@@ -55,6 +83,7 @@ namespace Tmpl8
             auto [_x, _y, w, h] = tile.getTextureRect();
 
             screen->Bar(x, y, x + w, y + h, 0xFFFFFF);
+
         }
     }
 

@@ -76,6 +76,10 @@ private:
 	static bool fontInitialized;
 	int s_Transl[256]{};		
 };
+class SpriteSheet {
+	
+
+};
 
 class Sprite
 {
