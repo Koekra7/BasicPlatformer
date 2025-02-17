@@ -1,5 +1,7 @@
 #pragma once
+#include "TileMap.hpp"
 #include <LDtkLoader/Project.hpp>
+
 
 namespace Tmpl8 {
 
@@ -18,7 +20,9 @@ public:
 	void KeyDown( int key ) { /* implement if you want to handle keys */ }
 private:
 	Surface* screen;
+	Surface* tiles;
 	ldtk::Project project; 
+	TileMap tilemap;
 };
 
 }; // namespace Tmpl8

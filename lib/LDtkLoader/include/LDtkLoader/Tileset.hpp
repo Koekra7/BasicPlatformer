@@ -4,7 +4,6 @@
 
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 #include "LDtkLoader/containers/TagsContainer.hpp"
 #include "LDtkLoader/thirdparty/json_fwd.hpp"
