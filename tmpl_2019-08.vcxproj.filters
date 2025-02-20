@@ -12,6 +12,8 @@
       <Filter>template code</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Entities.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -23,6 +25,8 @@
     </ClInclude>
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="TileMap.hpp" />
+    <ClInclude Include="Entities.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">

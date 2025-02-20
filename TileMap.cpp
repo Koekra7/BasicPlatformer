@@ -17,7 +17,7 @@ void TileMap::Draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos) //draw the t
 			if (tile != -1) //if the tile is not empty
 			{
 				auto sprite = spriteSheet->GetSprite(tile); //get the sprite
-				sprite.draw(surface, { x * sprite.getWidth() + pos.x, y * sprite.getHeight() + pos.y }); //draw the sprite
+				sprite.Draw(surface, { x * sprite.GetWidth() + pos.x, y * sprite.GetHeight() + pos.y }); //draw the sprite
 			}
 		}
 	}

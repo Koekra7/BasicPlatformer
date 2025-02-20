@@ -19,9 +19,9 @@ public:
 	Sprite2D(std::shared_ptr<Tmpl8::Surface> image, const Rect& rect); // Constructor.
 
 	//Draw the sprite with the camera position taken into consideration.
-	void draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos); 
-	int getWidth() const { return rect.w; } // Get the width of the sprite.
-	int getHeight() const { return rect.h; } // Get the height of the sprite.
+	void Draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos); 
+	int GetWidth() const { return rect.w; } // Get the width of the sprite.
+	int GetHeight() const { return rect.h; } // Get the height of the sprite.
 
 private:
 	std::shared_ptr<Tmpl8::Surface> image; // Image of sprite.

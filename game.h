@@ -1,6 +1,9 @@
 #pragma once
 #include "TileMap.hpp"
+#include "Player.h"
 #include <LDtkLoader/Project.hpp>
+#include <vector>
+
 
 
 namespace Tmpl8 {
@@ -22,7 +25,19 @@ private:
 	Surface* screen;
 	Surface* tiles;
 	ldtk::Project project; 
+
 	TileMap tilemap;
+	Player player;
+
+	float playerX;
+	float playerY;
+
+	std::vector<Rect> hitboxes;
+
+	Rect playerSize;
+	Rect startPosition;
+
+	
 };
 
 }; // namespace Tmpl8
