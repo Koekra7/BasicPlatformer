@@ -44,7 +44,7 @@ namespace ldtk {
 
         auto getBgColor() const -> const Color&;
 
-        auto getLayerDef(int id) const -> const LayerDef&;
+        auto getLayerDef(int id) const -> const LayerDef&; 
         auto getLayerDef(const std::string& name) const -> const LayerDef&;
 
         auto getEntityDef(int id) const -> const EntityDef&;
