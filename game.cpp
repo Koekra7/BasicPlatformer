@@ -3,6 +3,7 @@
 #include "surface.h"
 #include "Player.h"
 #include "Entities.h"
+#include "UI.h"
 
 #include <cstdio>
 #include <iostream>
@@ -46,28 +47,39 @@ namespace Tmpl8
     {
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
+		
+		ui.showMouse(true, screen, mouseX, mouseY); // show the mouse on the screen
+		ui.pressedPlay(screen, true); // show the play button on the screen
 
-		tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
-
-		for (const auto& box : hitboxes)
+		if (ui.pressedPlay(screen, true)) // Check if the play button is pressed
 		{
-			screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff0000); // Draw the hitbox to the screen
+
+			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
+
+			for (const auto& box : hitboxes)
+			{
+				screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff0000); // Draw the hitbox to the screen
+			}
+
+			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
+			player.Draw(screen, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, 2, 2, 0.05, true, 20); // Draw the player to the screen
+
+			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
+
+			
+
+			if (a_finish.isFinishHit() == 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
+			{
+				player.setPlayerPos(100, 100);
+				loadLevel(currentLevel + 1);
+			}
+
+			player.playerHealth(screen, { 20, 10, 100, 20 }, playerHealth);
+
+			std::cout << currentLevel << '\n';
 		}
 
-		player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
-		player.Draw(screen, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, 2, 2, 0.05, true, 20); // Draw the player to the screen
-
-		a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
-
-		if (a_finish.isFinishHit() == 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
-		{
-			player.setPlayerPos(100, 100);
-			loadLevel(currentLevel + 1);
-		}
-
-		player.playerHealth(screen, { 20, 10, 100, 20 }, playerHealth);
-
-		std::cout << currentLevel << '\n';
+		
     }
 
 	const char* levelNames[] = { // all the levels

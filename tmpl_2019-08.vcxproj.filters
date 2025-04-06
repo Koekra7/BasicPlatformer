@@ -14,6 +14,7 @@
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="TileMap.hpp" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">
