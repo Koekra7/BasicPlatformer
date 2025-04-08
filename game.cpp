@@ -48,12 +48,16 @@ namespace Tmpl8
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
 		
-		ui.showMouse(true, screen, mouseX, mouseY); // show the mouse on the screen
-		ui.pressedPlay(screen, true); // show the play button on the screen
+		if (ui.pressedPlay(screen, true) != true)
+		{
+			ui.showMouse(true, screen, mouseX, mouseY); // show the mouse on the screen
+			ui.pressedPlay(screen, true); // show the play button on the screen
+		}
+		
 
 		if (ui.pressedPlay(screen, true)) // Check if the play button is pressed
 		{
-
+			
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
 
 			for (const auto& box : hitboxes)
@@ -62,11 +66,10 @@ namespace Tmpl8
 			}
 
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
-			player.Draw(screen, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, 2, 2, 0.05, true, 20); // Draw the player to the screen
-
-			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
-
+			player.movePlayer(2, 2, 0.05, true, 20); // Move the player
+			player.Draw(screen); // Draw the player to the screen
 			
+			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
 
 			if (a_finish.isFinishHit() == 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
 			{

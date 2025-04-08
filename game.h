@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Entities.h"
 #include "UI.h"
+#include <iostream>
 #include <LDtkLoader/Project.hpp>
 #include <vector>
 
@@ -21,9 +22,9 @@ public:
 	void MouseUp( int button ) { /* implement if you want to detect mouse button presses */ }
 	void MouseDown( int button ) { /* implement if you want to detect mouse button presses */ }
 	void MouseMove(int x, int y) { mouseX += x, mouseY += y; }
-	void KeyUp( int key ) { /* implement if you want to handle keys */ }
-	void KeyDown( int key ) { /* implement if you want to handle keys */ }
-
+	void KeyUp(int key) { player.keyUp(key); }
+	void KeyDown(int key) { player.keyDown(key); } // print the mouse position to the console}
+	
 	void loadLevel(int id);
 private:
 	Surface* screen;
@@ -35,7 +36,7 @@ private:
 	Finish a_finish;
 
 	UI ui;
-	
+
 	int mouseX, mouseY;
 
 	float playerX;
