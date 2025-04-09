@@ -45,6 +45,8 @@ namespace Tmpl8
     
 	void Game::Tick(float deltaTime) // deltaTime is the time between frames
     {
+		deltaTime /= 1000; // Convert deltaTime to seconds
+
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
 		
@@ -66,7 +68,7 @@ namespace Tmpl8
 			}
 
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
-			player.movePlayer(2, 2, 0.05, true, 20); // Move the player
+			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
 			player.Draw(screen); // Draw the player to the screen
 			
 			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish

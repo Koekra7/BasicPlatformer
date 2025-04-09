@@ -17,7 +17,7 @@ public:
 	void setPlayerPos(int x, int y);
 	void playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth);
 	void addCollisions(bool addCollisions, std::vector <Rect> collisionObject);
-	void movePlayer(int maxSpeedX, int maxSpeedY, float exeleration, bool addGrafity, int jumpForce);
+	void movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime);
 	void keyUp(int key);
 	void keyDown(int key);
 

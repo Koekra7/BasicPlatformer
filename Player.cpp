@@ -102,36 +102,34 @@ float s = 0.0f;
 float d = 0.0f;
 bool space = false;
 
-void Player::movePlayer(int maxSpeedX, int maxSpeedY, float exeleration, bool addGrafity, int jumpForce)
+void Player::movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime)
 {
 	speedX += d * exeleration;
 	speedX -= a * exeleration;
 	//posY += s * exeleration;
 	//speedY -= w * exeleration;
 
-	if (addGrafity) { speedY += exeleration; } // adds grafity
+	if (addGrafity) { speedY += 1000 * deltatime; } // adds grafity
+
 	if (space && hitTheGround == true || w != 0 && hitTheGround)
 	{
 		speedY = -jumpForce;
 		hitTheGround = false;
 	}
 
-	if (speedX <= maxSpeedX) { posX += speedX; }
-	else { speedX = maxSpeedX, posX += speedX; }
-	if (speedY <= maxSpeedY) { posY += speedY; }
-	else { speedY = maxSpeedY, posY += speedY; }
+	if (speedX >= maxSpeedX) { speedX = maxSpeedX; }
+	if (speedX <= maxSpeedX * -1) { speedX = maxSpeedX * -1; }
 
-	if (speedX >= maxSpeedX * -1) { posX += speedX; }
-	else { speedX = maxSpeedX * -1, posX += speedX; }
-	if (speedY >= maxSpeedY * -1) { posY += speedY; }
-	else { speedY = maxSpeedY * -1, posY += speedY; }
+	posX += speedX * deltatime;
+	posY += speedY * deltatime;
 
 	if (posX < 0) posX = 0, speedX = 0;
 	if (posY < 0) posY = 0, speedY = 0;
 	if (posX + playerSize.w > 800) posX = 800 - playerSize.w - 1, speedX = 0;
 	if (posY + playerSize.h > 512) posY = 512 - playerSize.h - 1, speedY = 0, hitTheGround = true;
-	
+
 }
+
 
 void Player::keyUp(int key)
 {
