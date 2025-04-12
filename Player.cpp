@@ -177,19 +177,6 @@ void Player::keyDown(int key)
 	}
 }
 
-const Player::Position Player::GetPosition()
-{
-	position.x = posX;
-	position.y = posY;
-	return position;
-}
-
-void Player::setPlayerPos(int x, int y)
-{
-	posX = x;
-	posY = y;
-}
-
 void Player::playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth)
 {
 	surface->Box(playerHealthBar.x, playerHealthBar.y, playerHealthBar.x + playerHealthBar.w, playerHealthBar.y + playerHealthBar.h, 0x00ff00);

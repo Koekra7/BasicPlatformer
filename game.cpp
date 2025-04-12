@@ -31,7 +31,9 @@ namespace Tmpl8
         // Load the LDtk project
 		ldtk_project.loadFromFile("assets/Test.ldtk"); // Load the LDtk project from the file
 		loadLevel(0);
-		playerHealth = 75;
+		playerSize = { 100, 100, 20, 20 }; // setting the player size to 20x20
+		player = Player(playerSize, 0, 0); // Create a player 
+		playerHealth = 100;
     }
 
     // -----------------------------------------------------------
@@ -50,14 +52,14 @@ namespace Tmpl8
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
 		
-		if (ui.pressedPlay(screen, true) != true)
+		if (ui.pressedPlay(screen, true) != true && gameOver == false)
 		{
 			ui.showMouse(true, screen, mouseX, mouseY); // show the mouse on the screen
 			ui.pressedPlay(screen, true); // show the play button on the screen
 		}
 		
 
-		if (ui.pressedPlay(screen, true)) // Check if the play button is pressed
+		if (ui.pressedPlay(screen, true) && gameOver == false ) // Check if the play button is pressed
 		{
 			
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
@@ -70,7 +72,18 @@ namespace Tmpl8
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
 			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
 			player.Draw(screen); // Draw the player to the screen
-			
+
+			float Damage = damageObject.getDamage(level->getLayer("Entities"), player.GetPosition(), hitboxes, playerSize); // Get the damage from the hitbox layer
+			std::cout << Damage << '\n'; // Print the damage to the console
+			playerHealth -= Damage;
+
+			if (playerHealth <= 0)
+			{
+				gameOver = true;
+				std::cout << "Game Over" << '\n';
+			}
+
+
 			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
 
 			if (a_finish.isFinishHit() == 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
@@ -81,7 +94,7 @@ namespace Tmpl8
 
 			player.playerHealth(screen, { 20, 10, 100, 20 }, playerHealth);
 
-			std::cout << currentLevel << '\n';
+			//std::cout << currentLevel << '\n';
 		}
 
 		
@@ -106,6 +119,7 @@ namespace Tmpl8
 
 		const auto& entitiesLayer = level->getLayer("Entities"); // Get the entities layer from the level
 		const auto& hitBoxLayer = entitiesLayer.getEntitiesByName("HitBox"); // Get the tileset of the layer
+		
 
 		const auto& finishLayer = entitiesLayer.getEntitiesByName("Finish"); // Get the tileset of the layer
 		const auto& finish = entitiesLayer.getEntity(finishLayer[0].get().iid);
@@ -120,7 +134,7 @@ namespace Tmpl8
 		for (const auto& entity : hitBoxLayer) // Loop through all the entities in the layer
 		{
 			hitboxes.push_back({ entity.get().getPosition().x, entity.get().getPosition().y, entity.get().getSize().x, entity.get().getSize().y }); // Add the entity to the hitboxes vector
-		} // check if not broken!!! // clear
+		}
 
 
 		auto spritesheet = std::make_shared<SpriteSheet>(ldtk_project.getFilePath().directory() + tileSet.path, tileSet.tile_size); // Create a sprite sheet from the tileset

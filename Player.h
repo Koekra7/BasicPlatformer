@@ -12,9 +12,10 @@ public:
 	~Player() = default;
 
 	void Draw(Tmpl8::Surface* surface); // draws a movable player
-	struct Position { float x; float y; };
-	const Position GetPosition();
-	void setPlayerPos(int x, int y);
+	const Tmpl8::vec2 GetPosition() { return Tmpl8::vec2(posX, posY); } // returns the position of the player
+	const Tmpl8::vec2 GetSpeed() { return Tmpl8::vec2(speedX, speedY); } // returns the speed of the player
+    void SetSpeed(int x, int y) { speedX *= x; speedY *= y; } // sets the speed of the player
+	void setPlayerPos(int x, int y) { posX = x; posY = y; } // sets the position of the player
 	void playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth);
 	void addCollisions(bool addCollisions, std::vector <Rect> collisionObject);
 	void movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime);
@@ -27,5 +28,6 @@ private:
 	float posY;
 	float speedX;
 	float speedY;
-	Position position;
+	
+
 };

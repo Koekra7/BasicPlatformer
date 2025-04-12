@@ -39,3 +39,28 @@ int Finish::isFinishHit()
 {
 	return currentLevel;
 }
+
+float Damage = 0; // Damage variable
+float DamageObject::getDamage(const ldtk::Layer& layer, Tmpl8::vec2 position, std::vector <Rect> collisionObject, Rect playersize)
+{
+	const auto& hitBoxLayer = layer.getEntitiesByName("HitBox"); // Get the tileset of the layer
+	
+	for (int i = 0; i <= collisionObject.size() - 1; i++) //repeat for the amount of hitboxes
+	{
+		if (position.y + playersize.h - 0.2f > collisionObject[i].y &&				// checking if the player is in the hitbox
+			position.y < collisionObject[i].y + collisionObject[i].h &&
+			position.x + playersize.w > collisionObject[i].x &&
+			position.x < collisionObject[i].x + collisionObject[i].w)
+		{
+			Damage = hitBoxLayer[i].get().getField<float>("Damage").value();
+			return Damage;
+			std::cout << Damage << '\n'; // Print the damage to the console
+		}
+		else
+		{
+			Damage = 0;
+		}
+	}
+	return Damage;
+	
+}

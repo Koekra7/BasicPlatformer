@@ -35,6 +35,8 @@ private:
 	Player player;
 	Finish a_finish;
 
+	DamageObject damageObject;
+
 	UI ui;
 
 	int mouseX, mouseY;
@@ -49,6 +51,7 @@ private:
 	Rect startPosition;
 	Rect finishRect;
 
+	bool gameOver = false;
 	int currentLevel;
 	
 };

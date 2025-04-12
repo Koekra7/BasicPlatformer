@@ -32,3 +32,14 @@ public:
 	int isFinishHit();
 	
 };
+
+class DamageObject
+{
+public:
+	DamageObject() = default; // Default constructor
+	~DamageObject() = default; // Default destructor
+	float getDamage(const ldtk::Layer& layer, Tmpl8::vec2 position, std::vector <Rect> collisionObject, Rect playersize); // Get the damage
+	
+private:
+
+};
