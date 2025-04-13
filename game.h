@@ -32,6 +32,10 @@ private:
 	ldtk::Project project; 
 
 	TileMap tilemap;
+	TileMap tilemap2;
+	TileMap tilemap3;
+	TileMap tilemap4;
+
 	Player player;
 	Finish a_finish;
 

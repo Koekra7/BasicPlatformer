@@ -20,8 +20,8 @@ namespace Tmpl8
     // Declare an LDtk project and level
 	ldtk::Project ldtk_project; // The LDtk project
 	const ldtk::Level* level = nullptr; // The first level in the project
-
-	const ldtk::Layer* bg_layer = nullptr; // The background layer of the level
+	//const ldtk::Layer* bg_layer = nullptr; // The background layer of the level
+	
 
     // -----------------------------------------------------------
     // Initialize the application
@@ -44,13 +44,16 @@ namespace Tmpl8
     }
 
 
-    
+	Sprite background(new Surface("assets/pixelBackground.jpg"), 1); // Create a background sprite
+
 	void Game::Tick(float deltaTime) // deltaTime is the time between frames
     {
 		deltaTime /= 1000; // Convert deltaTime to seconds
 
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
+		background.Draw(screen, 0, -250 ); // Draw the background to the screen
+
 		
 		if (ui.pressedPlay(screen, true) != true && gameOver == false)
 		{
@@ -63,6 +66,9 @@ namespace Tmpl8
 		{
 			
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
+			tilemap2.Draw(screen, { 0, 0 }); // Draw the tilemap2 to the screen
+			tilemap3.Draw(screen, { 0, 0 }); // Draw the tilemap3 to the screen
+			tilemap4.Draw(screen, { 0, 0 }); // Draw the tilemap4 to the screen
 
 			for (const auto& box : hitboxes)
 			{
@@ -117,10 +123,19 @@ namespace Tmpl8
 		const auto& gridSize = tilesLayer.getGridSize(); // Get the grid size of the layer
 		const auto& tileSet = tilesLayer.getTileset(); // Get the tileset of the layer
 
+		const auto& assetsLayer = level->getLayer("AssetsLayer"); // Get the assets layer from the level
+		const auto& assetsSet = assetsLayer.getTileset(); // Get the tileset of the layer
+
+		const auto& textLayer = level->getLayer("TextLayer"); // Get the assets layer from the level
+		const auto& textSet = textLayer.getTileset(); // Get the tileset of the layer
+		const auto& textSize = textLayer.getGridSize(); // Get the grid size of the layer
+
+		const auto& lavaLayer = level->getLayer("Lava"); // Get the assets layer from the level
+		const auto& lavaSet = lavaLayer.getTileset(); // Get the tileset of the layer
+
 		const auto& entitiesLayer = level->getLayer("Entities"); // Get the entities layer from the level
 		const auto& hitBoxLayer = entitiesLayer.getEntitiesByName("HitBox"); // Get the tileset of the layer
 		
-
 		const auto& finishLayer = entitiesLayer.getEntitiesByName("Finish"); // Get the tileset of the layer
 		const auto& finish = entitiesLayer.getEntity(finishLayer[0].get().iid);
 
@@ -143,6 +158,33 @@ namespace Tmpl8
 		for (const auto& tile : tilesLayer.allTiles()) { // Loop through all the tiles in the layer
 			auto [x, y] = tile.getGridPosition(); // Get the grid position of the tile
 			tilemap(y, x) = tile.tileId; // Set the tile at the grid position to the tile ID
+		}
+
+		auto spritesheet2 = std::make_shared<SpriteSheet>(ldtk_project.getFilePath().directory() + assetsSet.path, tileSet.tile_size); // Create a sprite sheet from the tileset
+		tilemap2 = TileMap(spritesheet2, gridSize.y, gridSize.x); // Create a tilemap with the sprite sheet and grid size
+
+		for (const auto& tile : assetsLayer.allTiles()) // Loop through all the tiles in the layer
+		{
+			auto [x, y] = tile.getGridPosition(); // Get the grid position of the tile
+			tilemap2(y, x) = tile.tileId; // Set the tile at the grid position to the tile ID
+		}
+
+		auto spritesheet3 = std::make_shared<SpriteSheet>(ldtk_project.getFilePath().directory() + textSet.path, textSet.tile_size); // Create a sprite sheet from the tileset
+		tilemap3 = TileMap(spritesheet3, textSize.y, textSize.x); // Create a tilemap with the sprite sheet and grid size
+
+		for (const auto& tile : textLayer.allTiles()) // Loop through all the tiles in the layer
+		{
+			auto [x, y] = tile.getGridPosition(); // Get the grid position of the tile
+			tilemap3(y, x) = tile.tileId; // Set the tile at the grid position to the tile ID
+		}
+
+		auto spritesheet4 = std::make_shared<SpriteSheet>(ldtk_project.getFilePath().directory() + lavaSet.path, tileSet.tile_size); // Create a sprite sheet from the tileset
+		tilemap4 = TileMap(spritesheet4, gridSize.y, gridSize.x); // Create a tilemap with the sprite sheet and grid size
+
+		for (const auto& tile : lavaLayer.allTiles()) // Loop through all the tiles in the layer
+		{
+			auto [x, y] = tile.getGridPosition(); // Get the grid position of the tile
+			tilemap4(y, x) = tile.tileId; // Set the tile at the grid position to the tile ID
 		}
 	}
 
