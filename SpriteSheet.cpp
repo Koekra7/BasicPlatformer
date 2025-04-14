@@ -14,7 +14,9 @@ void Sprite2D::Draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos) //draw the 
 	{
 		for (int x = 0; x < rect.w; x++) //loop through the width of the sprite
 		{
-			surface->Plot(x + pos.x, y + pos.y, image->GetBuffer()[(x + rect.x) + (y + rect.y) * image->GetPitch()]); //draw the sprite
+			Tmpl8::Pixel color = image->GetBuffer()[(x + rect.x) + (y + rect.y) * image->GetPitch()]; //get the color of the pixel
+			if (color >> 24 > 0)
+				surface->Plot(x + pos.x, y + pos.y, image->GetBuffer()[(x + rect.x) + (y + rect.y) * image->GetPitch()]); //draw the sprite
 		}
 	}
 }

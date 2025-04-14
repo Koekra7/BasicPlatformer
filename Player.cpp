@@ -21,7 +21,7 @@ bool hitTheGround = false;
 
 void Player::Draw(Tmpl8::Surface* surface)
 {
-	surface->Box(posX, posY, playerSize.w + posX, playerSize.h + posY, 0x00ff00);
+	surface->Box(posX, posY, playerSize.w + posX, playerSize.h + posY, 0x000000);
 }
 
 void Player::addCollisions(bool addCollisions, std::vector <Rect> collisionObject)

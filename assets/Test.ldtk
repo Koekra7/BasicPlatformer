@@ -560,10 +560,9 @@
 						{ "px": [220,90], "src": [70,30], "f": 0, "t": 31, "d": [742], "a": 1 },
 						{ "px": [230,90], "src": [50,40], "f": 0, "t": 37, "d": [743], "a": 1 },
 						{ "px": [240,90], "src": [60,10], "f": 0, "t": 14, "d": [744], "a": 1 },
-						{ "px": [250,90], "src": [40,20], "f": 0, "t": 20, "d": [745], "a": 1 },
-						{ "px": [260,90], "src": [0,60], "f": 0, "t": 48, "d": [746], "a": 1 },
-						{ "px": [270,90], "src": [40,0], "f": 0, "t": 4, "d": [747], "a": 1 },
-						{ "px": [280,90], "src": [10,20], "f": 0, "t": 17, "d": [748], "a": 1 }
+						{ "px": [250,90], "src": [0,60], "f": 0, "t": 48, "d": [745], "a": 1 },
+						{ "px": [260,90], "src": [40,0], "f": 0, "t": 4, "d": [746], "a": 1 },
+						{ "px": [270,90], "src": [10,20], "f": 0, "t": 17, "d": [747], "a": 1 }
 					],
 					"entityInstances": []
 				},
@@ -743,7 +742,7 @@
 							"height": 8,
 							"defUid": 4,
 							"px": [400,504],
-							"fieldInstances": [{ "__identifier": "Damage", "__type": "Float", "__value": 100, "__tile": null, "defUid": 11, "realEditorValues": [{ "id": "V_Float", "params": [100] }] }],
+							"fieldInstances": [{ "__identifier": "Damage", "__type": "Float", "__value": 5, "__tile": null, "defUid": 11, "realEditorValues": [{ "id": "V_Float", "params": [5] }] }],
 							"__worldX": 400,
 							"__worldY": 504
 						}
