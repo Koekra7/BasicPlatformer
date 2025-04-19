@@ -6,6 +6,7 @@
 #include <iostream>
 #include <LDtkLoader/Project.hpp>
 #include <vector>
+#include <chrono>
 
 
 
@@ -65,6 +66,9 @@ private:
 	Sprite2D playersprite;
 	
 	Coin coin;
+
+	std::chrono::time_point<std::chrono::steady_clock> startTime;
+	bool startedTimer;
 	
 };
 

@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <Windows.h>
+#include <chrono>
 
 
 
@@ -48,6 +49,18 @@ namespace Tmpl8
     {
 		deltaTime /= 1000; // Convert deltaTime to seconds
 
+
+		// Calculate elapsed time
+		auto now = std::chrono::steady_clock::now();
+		auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
+		
+
+		// Display elapsed seconds
+		std::cout << "Elapsed time: " << elapsed << " seconds\n";
+		std::string elapsedTimeText = "Elapsed time: " + std::to_string(elapsed) + " seconds";
+
+
+
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
 		background.Draw(screen, 0, -250 ); // Draw the background to the screen
@@ -63,13 +76,18 @@ namespace Tmpl8
 		if (ui.pressedPlay(screen, true) && gameOver == false ) // Check if the play button is pressed
 		{
 			
-			
-
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
 			tilemap2.Draw(screen, { 0, 0 }); // Draw the tilemap2 to the screen
 			tilemap3.Draw(screen, { 0, 0 }); // Draw the tilemap3 to the screen
 			tilemap4.Draw(screen, { 0, 0 }); // Draw the tilemap4 to the screen
 			
+			if (startedTimer == false) 
+			{
+				startTime = std::chrono::steady_clock::now();
+				startedTimer = true;
+			}
+			
+			screen->Print(const_cast<char*>(elapsedTimeText.c_str()), 200, 10, 0xFFFFFF); // display the timer at 200,10
 
 			for (const auto& box : hitboxes)
 			{
@@ -79,6 +97,7 @@ namespace Tmpl8
 			{
 				screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff00ff); // Draw the hitbox to the screen
 			}
+
 			coin.addCoin(screen, coins, player.GetPosition(), playerSize);
 
 			playersprite = charactersheet.get()->GetSprite(player.currentframe());
@@ -96,7 +115,6 @@ namespace Tmpl8
 				gameOver = true;
 				std::cout << "Game Over" << '\n';
 			}
-
 
 			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
 
