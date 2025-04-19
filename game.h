@@ -35,6 +35,7 @@ private:
 	TileMap tilemap2;
 	TileMap tilemap3;
 	TileMap tilemap4;
+	TileMap charactermap;
 
 	Player player;
 	Finish a_finish;
@@ -49,6 +50,8 @@ private:
 	float playerY;
 	float playerHealth;
 
+	std::shared_ptr<SpriteSheet> charactersheet;
+
 	std::vector<Rect> hitboxes;
 
 	Rect playerSize;
@@ -57,6 +60,8 @@ private:
 
 	bool gameOver = false;
 	int currentLevel;
+
+	Sprite2D playersprite;
 	
 };
 

@@ -745,6 +745,22 @@
 							"fieldInstances": [{ "__identifier": "Damage", "__type": "Float", "__value": 5, "__tile": null, "defUid": 11, "realEditorValues": [{ "id": "V_Float", "params": [5] }] }],
 							"__worldX": 400,
 							"__worldY": 504
+						},
+						{
+							"__identifier": "Start_Pos",
+							"__grid": [29,44],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#4357D7",
+							"iid": "1d81e990-1030-11f0-9ce2-afcd2732a243",
+							"width": 16,
+							"height": 16,
+							"defUid": 7,
+							"px": [232,352],
+							"fieldInstances": [],
+							"__worldX": 232,
+							"__worldY": 352
 						}
 					]
 				},
@@ -1028,6 +1044,22 @@
 							"fieldInstances": [{ "__identifier": "Damage", "__type": "Float", "__value": 0, "__tile": null, "defUid": 11, "realEditorValues": [] }],
 							"__worldX": 848,
 							"__worldY": 312
+						},
+						{
+							"__identifier": "Start_Pos",
+							"__grid": [30,49],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#4357D7",
+							"iid": "c06db7a0-1030-11f0-9ce2-9f976944411a",
+							"width": 16,
+							"height": 16,
+							"defUid": 7,
+							"px": [240,392],
+							"fieldInstances": [],
+							"__worldX": 1040,
+							"__worldY": 392
 						}
 					]
 				},

@@ -31,8 +31,6 @@ namespace Tmpl8
         // Load the LDtk project
 		ldtk_project.loadFromFile("assets/Test.ldtk"); // Load the LDtk project from the file
 		loadLevel(0);
-		playerSize = { 100, 100, 20, 20 }; // setting the player size to 20x20
-		player = Player(playerSize, 0, 0); // Create a player 
 		playerHealth = 100;
     }
 
@@ -65,19 +63,24 @@ namespace Tmpl8
 		if (ui.pressedPlay(screen, true) && gameOver == false ) // Check if the play button is pressed
 		{
 			
+			
+
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
 			tilemap2.Draw(screen, { 0, 0 }); // Draw the tilemap2 to the screen
 			tilemap3.Draw(screen, { 0, 0 }); // Draw the tilemap3 to the screen
 			tilemap4.Draw(screen, { 0, 0 }); // Draw the tilemap4 to the screen
+			
 
 			for (const auto& box : hitboxes)
 			{
 				screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff0000); // Draw the hitbox to the screen
 			}
 
+			playersprite = charactersheet.get()->GetSprite(player.currentframe());
+
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
 			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
-			player.Draw(screen); // Draw the player to the screen
+			player.Draw(screen, playersprite, true); // Draw the player to the screen
 
 			float Damage = damageObject.getDamage(level->getLayer("Entities"), player.GetPosition(), hitboxes, playerSize); // Get the damage from the hitbox layer
 			std::cout << Damage << '\n'; // Print the damage to the console
@@ -92,15 +95,12 @@ namespace Tmpl8
 
 			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
 
-			if (a_finish.isFinishHit() == 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
+			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
 			{
-				player.setPlayerPos(100, 100);
-				loadLevel(currentLevel + 1);
+				loadLevel(currentLevel += 1);
 			}
 
 			player.playerHealth(screen, { 20, 10, 100, 20 }, playerHealth);
-
-			//std::cout << currentLevel << '\n';
 		}
 
 		
@@ -141,8 +141,11 @@ namespace Tmpl8
 
 		finishRect = { finish.getPosition().x, finish.getPosition().y, finish.getSize().x, finish.getSize().y };
 
-		playerSize = { 100, 100, 20, 20 }; // setting the player size to 20x20
-		player = Player(playerSize, 0, 0); // Create a player with a size of 20x20
+		int playerstartX = 8 * entitiesLayer.getEntitiesByName("Start_Pos")[0].get().getGridPosition().x;
+		int playerstartY = 8 * entitiesLayer.getEntitiesByName("Start_Pos")[0].get().getGridPosition().y;
+		 
+		playerSize = { playerstartX, playerstartY, 16, 16 }; // setting the player size to 16x16
+		player = Player(playerSize, 0, 0); // Create a player with a size of 16x16
 		a_finish = Finish();
 
 		hitboxes.clear(); // destruct the hitboxes
@@ -151,7 +154,8 @@ namespace Tmpl8
 			hitboxes.push_back({ entity.get().getPosition().x, entity.get().getPosition().y, entity.get().getSize().x, entity.get().getSize().y }); // Add the entity to the hitboxes vector
 		}
 
-
+        charactersheet = std::make_shared<SpriteSheet>("assets/Sprout Lands/Characters/Basic charakter Spritesheet.png", 48);
+		
 		auto spritesheet = std::make_shared<SpriteSheet>(ldtk_project.getFilePath().directory() + tileSet.path, tileSet.tile_size); // Create a sprite sheet from the tileset
 		tilemap = TileMap(spritesheet, gridSize.y, gridSize.x); // Create a tilemap with the sprite sheet and grid size
 

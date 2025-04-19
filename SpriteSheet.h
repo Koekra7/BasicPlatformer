@@ -16,6 +16,8 @@ struct Rect // Rectangle struct
 class Sprite2D
 {
 public:
+	Sprite2D() = default;
+	~Sprite2D() = default;
 	Sprite2D(std::shared_ptr<Tmpl8::Surface> image, const Rect& rect); // Constructor.
 
 	//Draw the sprite with the camera position taken into consideration.

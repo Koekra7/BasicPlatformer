@@ -19,9 +19,13 @@ Player::Player(const Rect& playerSize, float speedX, float speedY)
 
 bool hitTheGround = false;
 
-void Player::Draw(Tmpl8::Surface* surface)
+void Player::Draw(Tmpl8::Surface* surface, Sprite2D playersprite, bool showhitbox)
 {
-	surface->Box(posX, posY, playerSize.w + posX, playerSize.h + posY, 0x000000);
+	if (showhitbox)
+	{
+		surface->Box(posX, posY, playerSize.w + posX, playerSize.h + posY, 0x000000);
+	}
+	playersprite.Draw(surface, Tmpl8::vec2(posX - 16, posY - 16)); // draw the player sprite
 }
 
 void Player::addCollisions(bool addCollisions, std::vector <Rect> collisionObject)
@@ -175,6 +179,24 @@ void Player::keyDown(int key)
 		space = true;
 		break;
 	}
+}
+
+int currentFrame;
+int Player::currentframe()
+{
+	if (d != 0)
+	{
+		currentFrame = 12;
+	}
+	else if (a != 0)
+	{
+		currentFrame = 8;
+	}
+	else
+	{
+		currentFrame = 0;
+	}
+	return currentFrame;
 }
 
 void Player::playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth)
