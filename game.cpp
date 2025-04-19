@@ -75,6 +75,11 @@ namespace Tmpl8
 			{
 				screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff0000); // Draw the hitbox to the screen
 			}
+			for (const auto& box : coins)
+			{
+				screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff00ff); // Draw the hitbox to the screen
+			}
+			coin.addCoin(screen, coins, player.GetPosition(), playerSize);
 
 			playersprite = charactersheet.get()->GetSprite(player.currentframe());
 
@@ -97,7 +102,8 @@ namespace Tmpl8
 
 			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
 			{
-				loadLevel(currentLevel += 1);
+				loadLevel(currentLevel + 1);
+				coin.resetCheck();
 			}
 
 			player.playerHealth(screen, { 20, 10, 100, 20 }, playerHealth);
@@ -135,6 +141,7 @@ namespace Tmpl8
 
 		const auto& entitiesLayer = level->getLayer("Entities"); // Get the entities layer from the level
 		const auto& hitBoxLayer = entitiesLayer.getEntitiesByName("HitBox"); // Get the tileset of the layer
+		const auto& coinLayer = entitiesLayer.getEntitiesByName("Coin_Spawn");
 		
 		const auto& finishLayer = entitiesLayer.getEntitiesByName("Finish"); // Get the tileset of the layer
 		const auto& finish = entitiesLayer.getEntity(finishLayer[0].get().iid);
@@ -153,6 +160,12 @@ namespace Tmpl8
 		{
 			hitboxes.push_back({ entity.get().getPosition().x, entity.get().getPosition().y, entity.get().getSize().x, entity.get().getSize().y }); // Add the entity to the hitboxes vector
 		}
+		coins.clear();
+		for (const auto& entity : coinLayer)
+		{
+			coins.push_back({ entity.get().getPosition().x, entity.get().getPosition().y, entity.get().getSize().x, entity.get().getSize().y });
+		}
+
 
         charactersheet = std::make_shared<SpriteSheet>("assets/Sprout Lands/Characters/Basic charakter Spritesheet.png", 48);
 		

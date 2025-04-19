@@ -20,6 +20,19 @@ private:
 	
 
 };
+class Coin
+{
+public:
+	Coin() = default;
+	~Coin() = default;
+	void addCoin(Tmpl8::Surface* surface, std::vector <Rect> collisionObject, Tmpl8::vec2 pos, Rect playerSize);
+	void resetCheck();
+	int getCoins(); 
+	
+
+private:
+	int coins;
+};
 
 class Finish 
 {

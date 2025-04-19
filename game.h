@@ -53,6 +53,7 @@ private:
 	std::shared_ptr<SpriteSheet> charactersheet;
 
 	std::vector<Rect> hitboxes;
+	std::vector<Rect> coins;
 
 	Rect playerSize;
 	Rect startPosition;
@@ -62,6 +63,8 @@ private:
 	int currentLevel;
 
 	Sprite2D playersprite;
+	
+	Coin coin;
 	
 };
 

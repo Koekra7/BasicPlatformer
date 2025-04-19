@@ -54,7 +54,7 @@ float DamageObject::getDamage(const ldtk::Layer& layer, Tmpl8::vec2 position, st
 		{
 			Damage = hitBoxLayer[i].get().getField<float>("Damage").value();
 			return Damage;
-			std::cout << Damage << '\n'; // Print the damage to the console
+			//std::cout << Damage << '\n'; // Print the damage to the console
 		}
 		else
 		{
@@ -63,4 +63,38 @@ float DamageObject::getDamage(const ldtk::Layer& layer, Tmpl8::vec2 position, st
 	}
 	return Damage;
 	
+}
+
+std::vector <bool> check(1000);
+
+void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, Tmpl8::vec2 position, Rect playersize )
+{
+	
+	for (int i = 0; i <= collisionObject.size() - 1; i++) //repeat for the amount of coins
+	{
+		if (position.y + playersize.h - 0.2f > collisionObject[i].y &&				// checking if the player is in the hitbox
+			position.y < collisionObject[i].y + collisionObject[i].h &&
+			position.x + playersize.w > collisionObject[i].x &&
+			position.x < collisionObject[i].x + collisionObject[i].w
+			&& check[i] == 0)
+		{
+			coins++;
+			check[i] = true;
+			
+		}
+		std::cout << coins << "\n";
+	}
+}
+
+void Coin::resetCheck()
+{
+	for (int i = 0; i < check.size(); i++)
+	{
+		check[i] = false;
+	}
+}
+
+int Coin::getCoins()
+{
+	return coins;
 }
