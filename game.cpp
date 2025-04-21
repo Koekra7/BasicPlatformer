@@ -30,7 +30,7 @@ namespace Tmpl8
 	
     std::vector<Rect> UIbuttons =  // ui buttons list
 	{
-		{10,10,10,10},
+		{350,250,85,30}, // #0
     };
 	
 
@@ -57,7 +57,6 @@ namespace Tmpl8
     {
 		deltaTime /= 1000; // Convert deltaTime to seconds
 
-
 		// Calculate elapsed time
 		auto now = std::chrono::steady_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
@@ -66,22 +65,28 @@ namespace Tmpl8
 		// Display elapsed seconds
 		std::cout << "Elapsed time: " << elapsed << " seconds\n";
 		std::string elapsedTimeText = "Elapsed time: " + std::to_string(elapsed) + " seconds";
-
 		std::string eggcounter = "Amount of eggs: " + std::to_string(coin.getCoins());
 
+		
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
 		background.Draw(screen, 0, -250 ); // Draw the background to the screen
 
+		screen->Print(const_cast<char*>(eggcounter.c_str()), 350, 10, 0xFFFFFF); // display the eggs
+
+
 		
-		if (ui.pressedPlay(screen, true) != true && gameOver == false)
+		if (ui.pressedPlay() != true && gameOver == false)
 		{
 			ui.showMouse(true, screen, mouseX, mouseY); // show the mouse on the screen
-			ui.pressedPlay(screen, true); // show the play button on the screen
+			ui.pressedPlay(); // show the play button on the screen
+			ui.draw(true);
+			ui.checkButtons();
+			UITextmap.Draw(screen, { 0, 0 });
 		}
 		
 
-		if (ui.pressedPlay(screen, true) && gameOver == false ) // Check if the play button is pressed
+		if (ui.pressedPlay() && gameOver == false && showUI == false) // Check if the play button is pressed
 		{
 			
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
@@ -97,8 +102,7 @@ namespace Tmpl8
 			
 			screen->Print(const_cast<char*>(elapsedTimeText.c_str()), 200, 10, 0xFFFFFF); // display the timer at 200,10
 
-			screen->Print(const_cast<char*>(eggcounter.c_str()), 400, 10, 0xFFFFFF); // display the eggs
-
+			
 			eggsprite = eggsheet.get()->GetSprite(0); //setting the egg/coin sprite
 
 			//for (const auto& box : hitboxes)
@@ -167,6 +171,10 @@ namespace Tmpl8
 		const auto& textSet = textLayer.getTileset(); // Get the tileset of the layer
 		const auto& textSize = textLayer.getGridSize(); // Get the grid size of the layer
 
+		const auto& UItextLayer = level->getLayer("UITextLayer");
+		const auto& UItextSet = UItextLayer.getTileset();
+		const auto& UItextSize = UItextLayer.getGridSize();
+
 		const auto& lavaLayer = level->getLayer("Lava"); // Get the assets layer from the level
 		const auto& lavaSet = lavaLayer.getTileset(); // Get the tileset of the layer
 
@@ -233,6 +241,15 @@ namespace Tmpl8
 		{
 			auto [x, y] = tile.getGridPosition(); // Get the grid position of the tile
 			tilemap4(y, x) = tile.tileId; // Set the tile at the grid position to the tile ID
+		}
+
+		auto spritesheet5 = std::make_shared<SpriteSheet>(ldtk_project.getFilePath().directory() + UItextSet.path, tileSet.tile_size); // Create a sprite sheet from the tileset
+		UITextmap = TileMap(spritesheet5, gridSize.y, gridSize.x); // Create a tilemap with the sprite sheet and grid size
+
+		for (const auto& tile : UItextLayer.allTiles()) // Loop through all the tiles in the layer
+		{
+			auto [x, y] = tile.getGridPosition(); // Get the grid position of the tile
+			UITextmap(y, x) = tile.tileId; // Set the tile at the grid position to the tile ID
 		}
 	}
 

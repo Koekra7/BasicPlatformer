@@ -20,8 +20,8 @@ public:
 	void Init();
 	void Shutdown();
 	void Tick( float deltaTime );
-	void MouseUp( int button ) { /* implement if you want to detect mouse button presses */ }
-	void MouseDown( int button ) { /* implement if you want to detect mouse button presses */ }
+	void MouseUp(int button) { ui.mouseUp(button); }
+	void MouseDown(int button) { ui.mouseDown(button); }
 	void MouseMove(int x, int y) { mouseX += x, mouseY += y; }
 	void KeyUp(int key) { player.keyUp(key); }
 	void KeyDown(int key) { player.keyDown(key); } // print the mouse position to the console}
@@ -36,6 +36,7 @@ private:
 	TileMap tilemap2;
 	TileMap tilemap3;
 	TileMap tilemap4;
+	TileMap UITextmap;
 	TileMap charactermap;
 
 	Player player;
@@ -61,6 +62,7 @@ private:
 	Rect startPosition;
 	Rect finishRect;
 
+	bool showUI = false;
 	bool gameOver = false;
 	int currentLevel;
 
