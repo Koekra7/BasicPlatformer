@@ -2,11 +2,14 @@
 #include "SpriteSheet.h"
 #include "surface.h"
 #include "game.h"
+#include <iostream>
 #include <LDtkLoader/Project.hpp>
 #include <vector>
 #include <memory>
+#define NOMINMAX // to fix Windows and algoritm same name min/max
 #include <Windows.h>
 #include <SDL.h>
+#include <algorithm>
 
 
 Player::Player(const Rect& playerSize, float speedX, float speedY)
@@ -32,11 +35,7 @@ void Player::addCollisions(bool addCollisions, std::vector <Rect> collisionObjec
 {
 	if (addCollisions)
 	{
-		float minmaxX = 0; // minimum of the maximum position of the collider
-		float minmaxY = 0;
-		float maxminX = 0;
-		float maxminY = 0;
-
+			
 		for (int i = 0; i <= collisionObject.size() - 1; i++) //repeat for the amount of hitboxes
 		{
 			if (posY + playerSize.h > collisionObject[i].y &&				// checking if the player is in the hitbox
@@ -45,53 +44,38 @@ void Player::addCollisions(bool addCollisions, std::vector <Rect> collisionObjec
 				posX < collisionObject[i].x + collisionObject[i].w)
 
 			{
-				if (posX < collisionObject[i].x) // getting the smallest of the maximums
-				{
-					minmaxX = posX;
-				}
-				else { minmaxX = collisionObject[i].x; }
-				
-				if (posY < collisionObject[i].y) { minmaxY = posY; }
-				else { minmaxY = collisionObject[i].y; }
-					
-				if (posX + playerSize.w < collisionObject[i].x + collisionObject[i].w) // getting the biggest of the minimums
-				{
-					maxminX = collisionObject[i].x + collisionObject[i].w;
-				}
-				else { maxminX = posX + playerSize.w; }
+				// calculating the overlap of the 2 colliders / the x Overlap is the min of the max - max of the min
+				float xOverlap = std::min(posX + playerSize.w, static_cast<float>(collisionObject[i].x + collisionObject[i].w)) - std::max(posX, static_cast<float>(collisionObject[i].x));
+				float yOverlap = std::min(posY + playerSize.h, static_cast<float>(collisionObject[i].y + collisionObject[i].h)) - std::max(posY, static_cast<float>(collisionObject[i].y));
 
-				if (posY + playerSize.h < collisionObject[i].y + collisionObject[i].h) { maxminY = posY + playerSize.h; }
-				else { maxminY = collisionObject[i].y + collisionObject[i].h; }
 
-				float collisionX = maxminX - minmaxX;
-				float collisionY = maxminY - minmaxY;
-
-				if (collisionX < collisionY)
+				if (xOverlap < yOverlap) // if the overlap of the x axis is smaller then theck the sides
 				{
+					// Player is to the left of the collider.
 					if (posX < collisionObject[i].x)
 					{
-						posX = collisionObject[i].x - playerSize.w - 1;
-						speedX = 0;
+						posX = collisionObject[i].x - playerSize.w;
 					}
-					else
+					else // Player is to the right of the collider.
 					{
-						posX = collisionObject[i].x + collisionObject[i].w + 1;
-						speedX = 0;
+						posX = collisionObject[i].x + collisionObject[i].w;
 					}
+					// Zero the x-velocity.
+					speedX = 0.0f;
 				}
-				else
+				else // if the overlap of the y axis is smaller then theck the top and bottom
 				{
+					// The players is above the collider.
 					if (posY < collisionObject[i].y)
 					{
 						posY = collisionObject[i].y - playerSize.h;
-						speedY = 0;
-						hitTheGround = true;
+						hitTheGround = true; // allow the player to jump
 					}
 					else
 					{
-						posY = collisionObject[i].y + collisionObject[i].h + 1;
-						speedY = 0;
+						posY = collisionObject[i].y + collisionObject[i].h;
 					}
+					speedY = 0.0f;
 				}
 			}
 		}

@@ -100,7 +100,7 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 			{
 				if (Ycurrent[i] >= collisionObject[i].y - 10.0f)
 				{
-					Ycurrent[i] -= 0.1f;
+					Ycurrent[i] -= 10 * deltatime;
 					if (Ycurrent[i] <= collisionObject[i].y - 10.0f)
 					{
 						check2[i] = true;
@@ -113,7 +113,7 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 			{
 				if (Ycurrent[i] <= collisionObject[i].y)
 				{
-					Ycurrent[i] += 0.1f;
+					Ycurrent[i] += 10 * deltatime;
 					if (Ycurrent[i] >= collisionObject[i].y)
 					{
 						check2[i] = false;
