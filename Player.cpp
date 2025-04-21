@@ -37,7 +37,6 @@ void Player::addCollisions(bool addCollisions, std::vector <Rect> collisionObjec
 		float maxminX = 0;
 		float maxminY = 0;
 
-
 		for (int i = 0; i <= collisionObject.size() - 1; i++) //repeat for the amount of hitboxes
 		{
 			if (posY + playerSize.h > collisionObject[i].y &&				// checking if the player is in the hitbox

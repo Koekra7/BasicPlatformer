@@ -66,20 +66,63 @@ float DamageObject::getDamage(const ldtk::Layer& layer, Tmpl8::vec2 position, st
 }
 
 std::vector <bool> check(1000);
+std::vector <bool> check2(1000);
+std::vector <bool> check3(1000);
+std::vector <float> Ycurrent(1000);
 
-void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, Tmpl8::vec2 position, Rect playersize )
+
+void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, Tmpl8::vec2 playerPosition, Rect playersize, Sprite2D sprite, float deltatime )
 {
 	
+
+
 	for (int i = 0; i <= collisionObject.size() - 1; i++) //repeat for the amount of coins
 	{
-		if (position.y + playersize.h - 0.2f > collisionObject[i].y &&				// checking if the player is in the hitbox
-			position.y < collisionObject[i].y + collisionObject[i].h &&
-			position.x + playersize.w > collisionObject[i].x &&
-			position.x < collisionObject[i].x + collisionObject[i].w
-			&& check[i] == 0)
+		if (check3[i] == false)
+		{
+			Ycurrent[i] = collisionObject[i].y;
+			check3[i] = true;
+		}
+		
+		if (playerPosition.y + playersize.h - 0.2f > collisionObject[i].y &&				// checking if the player is in the hitbox
+			playerPosition.y < collisionObject[i].y + collisionObject[i].h &&
+			playerPosition.x + playersize.w > collisionObject[i].x &&
+			playerPosition.x < collisionObject[i].x + collisionObject[i].w
+			&& check[i] == false)
 		{
 			coins++;
 			check[i] = true;
+		}
+		else if (check[i] == false)
+		{
+			std::cout << Ycurrent[i] << '\n';
+			if (check2[i] == false)
+			{
+				if (Ycurrent[i] >= collisionObject[i].y - 10.0f)
+				{
+					Ycurrent[i] -= 0.1f;
+					if (Ycurrent[i] <= collisionObject[i].y - 10.0f)
+					{
+						check2[i] = true;
+						break;
+					}
+				}
+			}
+			
+			if (check2[i] == true)
+			{
+				if (Ycurrent[i] <= collisionObject[i].y)
+				{
+					Ycurrent[i] += 0.1f;
+					if (Ycurrent[i] >= collisionObject[i].y)
+					{
+						check2[i] = false;
+						break;
+					}
+				}
+			}
+			sprite.Draw(surface, Tmpl8::vec2(collisionObject[i].x, Ycurrent[i] + 2));
+
 			
 		}
 		std::cout << coins << "\n";
@@ -91,6 +134,14 @@ void Coin::resetCheck()
 	for (int i = 0; i < check.size(); i++)
 	{
 		check[i] = false;
+	}
+	for (int i = 0; i < check2.size(); i++)
+	{
+		check2[i] = false;
+	}
+	for (int i = 0; i < check3.size(); i++)
+	{
+		check3[i] = false;
 	}
 }
 

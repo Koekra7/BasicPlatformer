@@ -33,6 +33,7 @@ namespace Tmpl8
 		ldtk_project.loadFromFile("assets/Test.ldtk"); // Load the LDtk project from the file
 		loadLevel(0);
 		playerHealth = 100;
+		
     }
 
     // -----------------------------------------------------------
@@ -89,18 +90,21 @@ namespace Tmpl8
 			
 			screen->Print(const_cast<char*>(elapsedTimeText.c_str()), 200, 10, 0xFFFFFF); // display the timer at 200,10
 
-			for (const auto& box : hitboxes)
-			{
-				screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff0000); // Draw the hitbox to the screen
-			}
-			for (const auto& box : coins)
-			{
-				screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff00ff); // Draw the hitbox to the screen
-			}
+			eggsprite = eggsheet.get()->GetSprite(0); //setting the egg/coin sprite
 
-			coin.addCoin(screen, coins, player.GetPosition(), playerSize);
-
-			playersprite = charactersheet.get()->GetSprite(player.currentframe());
+			//for (const auto& box : hitboxes)
+			//{
+			//	screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff0000); // Draw the hitbox to the screen
+			//}
+			//for (const auto& box : coins)
+			//{
+			//	screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff00ff); // Draw the hitbox to the screen
+			//}
+			
+			coin.addCoin(screen, coins, player.GetPosition(), playerSize, eggsprite, deltaTime); // drawing the egg/coin
+			
+			
+			playersprite = charactersheet.get()->GetSprite(player.currentframe()); // setting the player sprite
 
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
 			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
@@ -183,7 +187,7 @@ namespace Tmpl8
 		{
 			coins.push_back({ entity.get().getPosition().x, entity.get().getPosition().y, entity.get().getSize().x, entity.get().getSize().y });
 		}
-
+		eggsheet = std::make_shared<SpriteSheet>("assets/Sprout Lands/objects/Egg_item.png", 16);
 
         charactersheet = std::make_shared<SpriteSheet>("assets/Sprout Lands/Characters/Basic charakter Spritesheet.png", 48);
 		

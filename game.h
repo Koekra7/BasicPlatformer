@@ -52,6 +52,7 @@ private:
 	float playerHealth;
 
 	std::shared_ptr<SpriteSheet> charactersheet;
+	std::shared_ptr<SpriteSheet> eggsheet;
 
 	std::vector<Rect> hitboxes;
 	std::vector<Rect> coins;
@@ -64,6 +65,7 @@ private:
 	int currentLevel;
 
 	Sprite2D playersprite;
+	Sprite2D eggsprite;
 	
 	Coin coin;
 

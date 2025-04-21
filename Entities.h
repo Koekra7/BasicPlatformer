@@ -25,7 +25,7 @@ class Coin
 public:
 	Coin() = default;
 	~Coin() = default;
-	void addCoin(Tmpl8::Surface* surface, std::vector <Rect> collisionObject, Tmpl8::vec2 pos, Rect playerSize);
+	void addCoin(Tmpl8::Surface* surface, std::vector <Rect> collisionObject, Tmpl8::vec2 playerPosition, Rect playerSize, Sprite2D sprite, float deltatime);
 	void resetCheck();
 	int getCoins(); 
 	
