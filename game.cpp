@@ -27,13 +27,20 @@ namespace Tmpl8
     // -----------------------------------------------------------
     // Initialize the application
     // -----------------------------------------------------------
+	
+    std::vector<Rect> UIbuttons =  // ui buttons list
+	{
+		{10,10,10,10},
+    };
+	
+
     void Game::Init()
     {
         // Load the LDtk project
 		ldtk_project.loadFromFile("assets/Test.ldtk"); // Load the LDtk project from the file
 		loadLevel(0);
 		playerHealth = 100;
-		
+		ui = UI(screen, UIbuttons);
     }
 
     // -----------------------------------------------------------
@@ -60,7 +67,7 @@ namespace Tmpl8
 		std::cout << "Elapsed time: " << elapsed << " seconds\n";
 		std::string elapsedTimeText = "Elapsed time: " + std::to_string(elapsed) + " seconds";
 
-
+		std::string eggcounter = "Amount of eggs: " + std::to_string(coin.getCoins());
 
         // Clear the screen
 		screen->Clear(0); // Clear the screen to black
@@ -89,6 +96,8 @@ namespace Tmpl8
 			}
 			
 			screen->Print(const_cast<char*>(elapsedTimeText.c_str()), 200, 10, 0xFFFFFF); // display the timer at 200,10
+
+			screen->Print(const_cast<char*>(eggcounter.c_str()), 400, 10, 0xFFFFFF); // display the eggs
 
 			eggsprite = eggsheet.get()->GetSprite(0); //setting the egg/coin sprite
 
@@ -134,12 +143,12 @@ namespace Tmpl8
 		
     }
 
+
 	const char* levelNames[] = { // all the levels
 		"Level_0",
 		"Level_1"
 	};
-
-
+	
 	void Game::loadLevel(int id) // change to using names
 	{
 		auto& world = ldtk_project.getWorld(); // Get the world from the project

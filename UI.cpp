@@ -4,12 +4,19 @@
 #include "UI.h"
 #include <Windows.h>
 
+UI::UI(Tmpl8::Surface* screen, std::vector<Rect> buttons)
+	:screen(screen), buttons(buttons)
+{
+	
+}
+
+
+
 void UI::showMouse(bool showMouse, Tmpl8::Surface* screen, int mouseX, int mouseY)
 {
 	if (showMouse)
 	{
 		screen->Box(mouseX - 2, mouseY - 2, mouseX + 2, mouseY + 2, 0x00ff00); // Draw the mouse to the screen
-		//std::printf("X: %d Y: %d\n", mouseX, mouseY);
 	}	
 	MouseX = mouseX;
 	MouseY = mouseY;
