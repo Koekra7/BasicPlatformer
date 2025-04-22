@@ -17,8 +17,6 @@ void Hitbox::Draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos)
 	
 }
 
-int currentLevel;
-
 void Finish::LevelFinish(Tmpl8::Surface* surface, Rect finish, bool draw, Rect playerSize, float x , float y)
 {
 	if (draw) 
@@ -95,7 +93,6 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 		}
 		else if (check[i] == false)
 		{
-			std::cout << Ycurrent[i] << '\n';
 			if (check2[i] == false)
 			{
 				if (Ycurrent[i] >= collisionObject[i].y - 10.0f)
@@ -125,7 +122,6 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 
 			
 		}
-		std::cout << coins << "\n";
 	}
 }
 
@@ -145,7 +141,4 @@ void Coin::resetCheck()
 	}
 }
 
-int Coin::getCoins()
-{
-	return coins;
-}
+

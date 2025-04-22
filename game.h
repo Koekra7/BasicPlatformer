@@ -54,6 +54,8 @@ private:
 
 	std::shared_ptr<SpriteSheet> charactersheet;
 	std::shared_ptr<SpriteSheet> eggsheet;
+	std::shared_ptr<SpriteSheet> GameOverSheet;
+	std::shared_ptr<SpriteSheet> victorySheet;
 
 	std::vector<Rect> hitboxes;
 	std::vector<Rect> coins;
@@ -62,12 +64,16 @@ private:
 	Rect startPosition;
 	Rect finishRect;
 
-	bool showUI = false;
 	bool gameOver = false;
+	bool showUI = true;
 	int currentLevel;
+	std::string finishTime;
+	int finishtime;
 
 	Sprite2D playersprite;
 	Sprite2D eggsprite;
+	Sprite2D GameOver;
+	Sprite2D victory;
 	
 	Coin coin;
 

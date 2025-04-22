@@ -91,16 +91,18 @@ bool space = false;
 
 void Player::movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime)
 {
-	speedX += d * exeleration;
-	speedX -= a * exeleration;
+	speedX += d * exeleration * speedXboost;
+	speedX -= a * exeleration * speedXboost;
 	//posY += s * exeleration;
 	//speedY -= w * exeleration;
+
+	maxSpeedX *= speedXboost;
 
 	if (addGrafity) { speedY += 1000 * deltatime; } // adds grafity
 
 	if (space && hitTheGround == true || w != 0 && hitTheGround)
 	{
-		speedY = -jumpForce;
+		speedY = -jumpForce * speedYboost;
 		hitTheGround = false;
 	}
 

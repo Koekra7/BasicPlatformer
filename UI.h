@@ -13,8 +13,11 @@ public:
 	void draw(bool showHitbox);
 	bool clicked();
 	void checkButtons();
+	int clickedButton();
+	void makeUsable(Player& player, Coin& coin);
 	void showMouse(bool showMouse, Tmpl8::Surface* screen, int mouseX, int mouseY);
 	bool pressedPlay();
+	void resetPlay();
 	void mouseDown(int button);
 	void mouseUp(int button);
 
@@ -24,6 +27,7 @@ private:
 	std::vector<Rect> buttons;
 	Tmpl8::Surface* screen;
 	bool pushed = false;
-	std::vector <bool> onButton;
+	int onButton = -1;
+	bool wasPushed = false;
 	
 };

@@ -27,7 +27,8 @@ public:
 	~Coin() = default;
 	void addCoin(Tmpl8::Surface* surface, std::vector <Rect> collisionObject, Tmpl8::vec2 playerPosition, Rect playerSize, Sprite2D sprite, float deltatime);
 	void resetCheck();
-	int getCoins(); 
+	void setCoins(int coin) { coins = coin; }
+	int getCoins() { return coins; }
 	
 
 private:
@@ -44,6 +45,8 @@ public:
 	void LevelFinish(Tmpl8::Surface* surface, Rect finish, bool draw, Rect playerSize, float x, float y);
 	int isFinishHit();
 	
+private:
+	int currentLevel;
 };
 
 class DamageObject

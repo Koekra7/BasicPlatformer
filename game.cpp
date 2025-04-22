@@ -30,7 +30,10 @@ namespace Tmpl8
 	
     std::vector<Rect> UIbuttons =  // ui buttons list
 	{
-		{350,250,85,30}, // #0
+		{350,250,85,30}, // #0 // start button
+		{710, 490, 80, 30}, // #1 // reset button
+		{50,110,90,20}, // #2 // upgrade speed button
+		{50,142,90,20} // #3 // upgrade jump button
     };
 	
 
@@ -63,7 +66,7 @@ namespace Tmpl8
 		
 
 		// Display elapsed seconds
-		std::cout << "Elapsed time: " << elapsed << " seconds\n";
+		//std::cout << "Elapsed time: " << elapsed << " seconds\n";
 		std::string elapsedTimeText = "Elapsed time: " + std::to_string(elapsed) + " seconds";
 		std::string eggcounter = "Amount of eggs: " + std::to_string(coin.getCoins());
 
@@ -76,19 +79,23 @@ namespace Tmpl8
 
 
 		
-		if (ui.pressedPlay() != true && gameOver == false)
+		if (showUI == true && gameOver == false)
 		{
 			ui.showMouse(true, screen, mouseX, mouseY); // show the mouse on the screen
 			ui.pressedPlay(); // show the play button on the screen
 			ui.draw(true);
 			ui.checkButtons();
 			UITextmap.Draw(screen, { 0, 0 });
+			screen->Print(const_cast<char*>(finishTime.c_str()), 325, 200, 0xFFFFFF);
+			startTime = now;
 		}
-		
 
-		if (ui.pressedPlay() && gameOver == false && showUI == false) // Check if the play button is pressed
+		ui.makeUsable(player, coin);
+
+		if (ui.pressedPlay() && gameOver == false) // Check if the play button is pressed
 		{
-			
+			showUI = false;
+
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
 			tilemap2.Draw(screen, { 0, 0 }); // Draw the tilemap2 to the screen
 			tilemap3.Draw(screen, { 0, 0 }); // Draw the tilemap3 to the screen
@@ -102,8 +109,11 @@ namespace Tmpl8
 			
 			screen->Print(const_cast<char*>(elapsedTimeText.c_str()), 200, 10, 0xFFFFFF); // display the timer at 200,10
 
-			
+			//setting some sprites
 			eggsprite = eggsheet.get()->GetSprite(0); //setting the egg/coin sprite
+			GameOver = GameOverSheet.get()->GetSprite(0);
+			playersprite = charactersheet.get()->GetSprite(player.currentframe()); // setting the player sprite
+			victory = victorySheet.get()->GetSprite(0);
 
 			//for (const auto& box : hitboxes)
 			//{
@@ -116,22 +126,16 @@ namespace Tmpl8
 			
 			coin.addCoin(screen, coins, player.GetPosition(), playerSize, eggsprite, deltaTime); // drawing the egg/coin
 			
-			
-			playersprite = charactersheet.get()->GetSprite(player.currentframe()); // setting the player sprite
 
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
 			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
 			player.Draw(screen, playersprite, true); // Draw the player to the screen
 
 			float Damage = damageObject.getDamage(level->getLayer("Entities"), player.GetPosition(), hitboxes, playerSize); // Get the damage from the hitbox layer
-			std::cout << Damage << '\n'; // Print the damage to the console
+			//std::cout << Damage << '\n'; // Print the damage to the console
 			playerHealth -= Damage;
 
-			if (playerHealth <= 0)
-			{
-				gameOver = true;
-				std::cout << "Game Over" << '\n';
-			}
+			
 
 			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
 
@@ -140,10 +144,56 @@ namespace Tmpl8
 				loadLevel(currentLevel + 1);
 				coin.resetCheck();
 			}
+			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 1)
+			{
+				finishtime = elapsed;
+				finishTime = elapsedTimeText;
+				std::cout << elapsed << '\n';
+			}
+			if (playerHealth <= 0)
+			{
+				finishtime = elapsed;
+				finishTime = elapsedTimeText;
+			}
 
 			player.playerHealth(screen, { 20, 10, 100, 20 }, playerHealth);
 		}
 
+
+		
+		if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 1 && showUI == false) // when player finishes the game =)
+		{
+			victory.Draw(screen, { 375,200 });
+			ui.resetPlay();
+
+			if (elapsed - finishtime >= 3)
+			{
+				showUI = true;
+				coin.resetCheck();
+				loadLevel(0);
+			}
+		}
+
+		if (playerHealth <= 0) //when player dies
+		{
+			gameOver = true;
+			std::cout << "Game Over" << '\n';
+			GameOver.Draw(screen, { 375,200 });
+
+			loadLevel(0);
+			ui.resetPlay();
+			showUI = true;
+			coin.resetCheck();
+			coin.setCoins(0);
+
+			if (elapsed - finishtime == 3)
+			{
+				gameOver = false;
+				playerHealth = 100;
+			}
+		}
+		
+			
 		
     }
 
@@ -204,10 +254,13 @@ namespace Tmpl8
 		{
 			coins.push_back({ entity.get().getPosition().x, entity.get().getPosition().y, entity.get().getSize().x, entity.get().getSize().y });
 		}
-		eggsheet = std::make_shared<SpriteSheet>("assets/Sprout Lands/objects/Egg_item.png", 16);
 
+		//loading some spritesheets
+		eggsheet = std::make_shared<SpriteSheet>("assets/Sprout Lands/objects/Egg_item.png", 16);
+		GameOverSheet = std::make_shared<SpriteSheet>("assets/BigPixelTypefaceSets - PNG/BigPixelTypefaceSets - PNG/GameOver.png", 51);
         charactersheet = std::make_shared<SpriteSheet>("assets/Sprout Lands/Characters/Basic charakter Spritesheet.png", 48);
-		
+		victorySheet = std::make_shared<SpriteSheet>("assets/BigPixelTypefaceSets - PNG/BigPixelTypefaceSets - PNG/Victory.png", 83);
+
 		auto spritesheet = std::make_shared<SpriteSheet>(ldtk_project.getFilePath().directory() + tileSet.path, tileSet.tile_size); // Create a sprite sheet from the tileset
 		tilemap = TileMap(spritesheet, gridSize.y, gridSize.x); // Create a tilemap with the sprite sheet and grid size
 
