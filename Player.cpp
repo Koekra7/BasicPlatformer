@@ -12,17 +12,17 @@
 #include <algorithm>
 
 
-Player::Player(const Rect& playerSize, float speedX, float speedY)
+Player::Player(const Rect& playerSize, float speedX, float speedY) // constructor
 	: playerSize (playerSize), speedX(speedX), speedY(speedY)
 {
-	posX = playerSize.x;
+	posX = playerSize.x; 
 	posY = playerSize.y;
 }
 
 
 bool hitTheGround = false;
 
-void Player::Draw(Tmpl8::Surface* surface, Sprite2D playersprite, bool showhitbox)
+void Player::Draw(Tmpl8::Surface* surface, Sprite2D playersprite, bool showhitbox) // drawing the player
 {
 	if (showhitbox)
 	{
@@ -89,7 +89,7 @@ float s = 0.0f;
 float d = 0.0f;
 bool space = false;
 
-void Player::movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime)
+void Player::movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime) // moving the player and adding the boosts from setSpeed
 {
 	speedX += d * exeleration * speedXboost;
 	speedX -= a * exeleration * speedXboost;
@@ -120,7 +120,7 @@ void Player::movePlayer(float maxSpeedX, float exeleration, bool addGrafity, flo
 }
 
 
-void Player::keyUp(int key)
+void Player::keyUp(int key) // checking which key is released
 {
 	switch (key)
 	{
@@ -144,7 +144,7 @@ void Player::keyUp(int key)
 	}
 }
 
-void Player::keyDown(int key)
+void Player::keyDown(int key) // checking which key is pressed
 {
 	switch (key)
 	{
@@ -167,7 +167,7 @@ void Player::keyDown(int key)
 }
 
 int currentFrame;
-int Player::currentframe()
+int Player::currentframe() // checking which frame to use
 {
 	if (d != 0)
 	{
@@ -184,7 +184,7 @@ int Player::currentframe()
 	return currentFrame;
 }
 
-void Player::playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth)
+void Player::playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth) // drawing the health bar
 {
 	surface->Box(playerHealthBar.x, playerHealthBar.y, playerHealthBar.x + playerHealthBar.w, playerHealthBar.y + playerHealthBar.h, 0x00ff00);
 	surface->Bar(playerHealthBar.x + 1, playerHealthBar.y + 1, playerHealthBar.x + playerHealthBar.w / 100 * currentHealth - 1, playerHealthBar.y + playerHealthBar.h - 1, 0xff0000);

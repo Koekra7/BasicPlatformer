@@ -25,10 +25,10 @@ class Coin
 public:
 	Coin() = default;
 	~Coin() = default;
-	void addCoin(Tmpl8::Surface* surface, std::vector <Rect> collisionObject, Tmpl8::vec2 playerPosition, Rect playerSize, Sprite2D sprite, float deltatime);
-	void resetCheck();
-	void setCoins(int coin) { coins = coin; }
-	int getCoins() { return coins; }
+	void addCoin(Tmpl8::Surface* surface, std::vector <Rect> collisionObject, Tmpl8::vec2 playerPosition, Rect playerSize, Sprite2D sprite, float deltatime); // Add the coin
+	void resetCheck();// Reset the coin
+	void setCoins(int coin) { coins = coin; } // Set the coins
+	int getCoins() { return coins; } // Get the coins
 	
 
 private:
@@ -41,9 +41,9 @@ public:
 	Finish() = default;
 	~Finish() = default;
 
-	struct position { float x; float y; };
-	void LevelFinish(Tmpl8::Surface* surface, Rect finish, bool draw, Rect playerSize, float x, float y);
-	int isFinishHit();
+	struct position { float x; float y; }; // position struct
+	void LevelFinish(Tmpl8::Surface* surface, Rect finish, bool draw, Rect playerSize, float x, float y); // Draw the finish
+	int isFinishHit(); // Check if the finish is hit
 	
 private:
 	int currentLevel;

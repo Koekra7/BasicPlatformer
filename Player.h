@@ -14,14 +14,14 @@ public:
 	void Draw(Tmpl8::Surface* surface, Sprite2D playersprite, bool showhitbox); // draws a movable player
 	const Tmpl8::vec2 GetPosition() { return Tmpl8::vec2(posX, posY); } // returns the position of the player
 	const Tmpl8::vec2 GetSpeed() { return Tmpl8::vec2(speedX, speedY); } // returns the speed of the player
-    void SetSpeed(float x, float y) { speedXboost = x; speedYboost = y; } // sets the speed of the player
+    void SetSpeed(float x, float y) { speedXboost = x; speedYboost = y; } // sets the speedboosts of the player
 	void setPlayerPos(float x, float y) { posX = x; posY = y; } // sets the position of the player
-	void playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth);
-	void addCollisions(bool addCollisions, std::vector <Rect> collisionObject);
-	void movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime);
-	void keyUp(int key);
-	void keyDown(int key);
-	int currentframe();
+	void playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth); // draws the health bar
+	void addCollisions(bool addCollisions, std::vector <Rect> collisionObject); // adds collisions to the player
+	void movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime); // moves the player
+	void keyUp(int key); // checks which key is released
+	void keyDown(int key); // checks which key is pressed
+	int currentframe(); // checks which frame to use
 
 private:
 	Rect playerSize; // defines the playerSize

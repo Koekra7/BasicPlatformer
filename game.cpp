@@ -41,9 +41,9 @@ namespace Tmpl8
     {
         // Load the LDtk project
 		ldtk_project.loadFromFile("assets/Test.ldtk"); // Load the LDtk project from the file
-		loadLevel(0);
-		playerHealth = 100;
-		ui = UI(screen, UIbuttons);
+		loadLevel(0); // loading the first level  
+		playerHealth = 100; // setting playerhealth
+		ui = UI(screen, UIbuttons); // setting UI
     }
 
     // -----------------------------------------------------------
@@ -66,7 +66,6 @@ namespace Tmpl8
 		
 
 		// Display elapsed seconds
-		//std::cout << "Elapsed time: " << elapsed << " seconds\n";
 		std::string elapsedTimeText = "Elapsed time: " + std::to_string(elapsed) + " seconds";
 		std::string eggcounter = "Amount of eggs: " + std::to_string(coin.getCoins());
 
@@ -75,11 +74,10 @@ namespace Tmpl8
 		screen->Clear(0); // Clear the screen to black
 		background.Draw(screen, 0, -250 ); // Draw the background to the screen
 
-		screen->Print(const_cast<char*>(eggcounter.c_str()), 350, 10, 0xFFFFFF); // display the eggs
-
+		screen->Print(const_cast<char*>(eggcounter.c_str()), 350, 10, 0xFFFFFF); // display the egg counter
 
 		
-		if (showUI == true && gameOver == false)
+		if (showUI == true && gameOver == false) // display the ui if the game has not started and player is not dead
 		{
 			ui.showMouse(true, screen, mouseX, mouseY); // show the mouse on the screen
 			ui.pressedPlay(); // show the play button on the screen
@@ -90,14 +88,14 @@ namespace Tmpl8
 			startTime = now;
 		}
 
-		ui.makeUsable(player, coin);
+		ui.makeUsable(player, coin); // giving the coins/eggs the ability to do something 
 
 		if (ui.pressedPlay() && gameOver == false) // Check if the play button is pressed
 		{
-			showUI = false;
+			showUI = false; // stopping the UI from displaying
 
 			float Damage = damageObject.getDamage(level->getLayer("Entities"), player.GetPosition(), hitboxes, playerSize); // Get the damage from the hitbox layer
-			playerHealth -= Damage;
+			playerHealth -= Damage; // setting the playerhealth
 
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
 			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
@@ -113,7 +111,7 @@ namespace Tmpl8
 			a_finish.LevelFinish(screen, finishRect, false, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
 			
 			
-			if (startedTimer == false) 
+			if (startedTimer == false) //resseting the startTime for the timer to when the game starts
 			{
 				startTime = std::chrono::steady_clock::now();
 				startedTimer = true;
@@ -143,13 +141,13 @@ namespace Tmpl8
 				loadLevel(currentLevel + 1);
 				coin.resetCheck();
 			}
-			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 4)
+			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 4) // stopping the timer
 			{
 				finishtime = elapsed;
 				finishTime = elapsedTimeText;
 				std::cout << elapsed << '\n';
 			}
-			if (playerHealth <= 0)
+			if (playerHealth <= 0) // if player is dead stop the timer
 			{
 				finishtime = elapsed;
 				finishTime = elapsedTimeText;
@@ -162,10 +160,10 @@ namespace Tmpl8
 		
 		if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 4 && showUI == false) // when player finishes the game =)
 		{
-			victory.Draw(screen, { 375,200 });
-			ui.resetPlay();
+			victory.Draw(screen, { 375,200 }); // draw the victory
+			ui.resetPlay(); // resetting some UI elements
 
-			if (elapsed - finishtime >= 3)
+			if (elapsed - finishtime >= 3) // if 3 seconds have passed reset the level
 			{
 				showUI = true;
 				coin.resetCheck();
@@ -173,7 +171,7 @@ namespace Tmpl8
 			}
 		}
 
-		if (playerHealth <= 0) //when player dies
+		if (playerHealth <= 0) //when player dies reset everything
 		{
 			gameOver = true;
 			std::cout << "Game Over" << '\n';
@@ -186,7 +184,7 @@ namespace Tmpl8
 			coin.setCoins(0);
 			player.SetSpeed(1, 1);
 
-			if (elapsed - finishtime == 3)
+			if (elapsed - finishtime == 3) // if 3 seconds have passed reset gameOver and playerHealth
 			{
 				gameOver = false;
 				playerHealth = 100;
@@ -198,7 +196,7 @@ namespace Tmpl8
     }
 
 
-	const char* levelNames[] = { // all the levels
+	const char* levelNames[] = { // setting all the levelNames
 		"Level_0",
 		"Level_1",
 		"Level_2",

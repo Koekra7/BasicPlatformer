@@ -11,20 +11,20 @@ Hitbox::Hitbox(const Rect& hitbox)
 	
 }
 
-void Hitbox::Draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos)
+void Hitbox::Draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos) // drawing the hitbox
 {
 	surface->Box(hitbox.x + pos.x, hitbox.y + pos.y, hitbox.x + hitbox.w + pos.x, hitbox.y + hitbox.h + pos.y, 0xff0000);
 	
 }
 
-void Finish::LevelFinish(Tmpl8::Surface* surface, Rect finish, bool draw, Rect playerSize, float x , float y)
+void Finish::LevelFinish(Tmpl8::Surface* surface, Rect finish, bool draw, Rect playerSize, float x, float y) // drawing the finish
 {
-	if (draw) 
+	if (draw) // drawing the finish hitbox
 	{
 		surface->Box(finish.x, finish.y, finish.x + finish.w, finish.y + finish.h, 0xff00ff);
 	}
 	
-	if(x + playerSize.w > finish.x && x < finish.x + finish.w && y < finish.y + finish.h && y + playerSize.h > finish.y )
+	if(x + playerSize.w > finish.x && x < finish.x + finish.w && y < finish.y + finish.h && y + playerSize.h > finish.y ) // checking if player is inside finish
 	{
 		std::cout << "you have completed the level" << '\n';
 		currentLevel++;
@@ -33,7 +33,7 @@ void Finish::LevelFinish(Tmpl8::Surface* surface, Rect finish, bool draw, Rect p
 	
 }
 
-int Finish::isFinishHit()
+int Finish::isFinishHit() // giving the currentLevel
 {
 	return currentLevel;
 }
@@ -50,12 +50,12 @@ float DamageObject::getDamage(const ldtk::Layer& layer, Tmpl8::vec2 position, st
 			position.x + playersize.w > collisionObject[i].x &&
 			position.x < collisionObject[i].x + collisionObject[i].w)
 		{
-			Damage = hitBoxLayer[i].get().getField<float>("Damage").value();
+			Damage = hitBoxLayer[i].get().getField<float>("Damage").value(); // setting the right amount of damage
 			return Damage;
 		}
 		else
 		{
-			Damage = 0;
+			Damage = 0; // resetting damage
 		}
 	}
 	return Damage;
@@ -75,9 +75,9 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 
 	for (int i = 0; i <= collisionObject.size() - 1; i++) //repeat for the amount of coins
 	{
-		if (check3[i] == false)
+		if (check3[i] == false) 
 		{
-			Ycurrent[i] = collisionObject[i].y;
+			Ycurrent[i] = collisionObject[i].y; // setting Ycurrent to the start pos of the coin/egg
 			check3[i] = true;
 		}
 		
@@ -87,14 +87,14 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 			playerPosition.x < collisionObject[i].x + collisionObject[i].w
 			&& check[i] == false)
 		{
-			coins++;
-			check[i] = true;
+			coins++; // adding a coin
+			check[i] = true; // setting the coin to collected
 		}
-		else if (check[i] == false)
+		else if (check[i] == false) 
 		{
-			if (check2[i] == false)
+			if (check2[i] == false) //checking where the coin/egg is in its loop/animation
 			{
-				if (Ycurrent[i] >= collisionObject[i].y - 10.0f)
+				if (Ycurrent[i] >= collisionObject[i].y - 10.0f) // checking if the coin/egg is at the top
 				{
 					Ycurrent[i] -= 10 * deltatime;
 					if (Ycurrent[i] <= collisionObject[i].y - 10.0f)
@@ -105,9 +105,9 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 				}
 			}
 			
-			if (check2[i] == true)
+			if (check2[i] == true) // checking where the coin / egg is in its loop / animation
 			{
-				if (Ycurrent[i] <= collisionObject[i].y)
+				if (Ycurrent[i] <= collisionObject[i].y) // checking if the coin/egg is in its original position
 				{
 					Ycurrent[i] += 10 * deltatime;
 					if (Ycurrent[i] >= collisionObject[i].y)
@@ -117,14 +117,14 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 					}
 				}
 			}
-			sprite.Draw(surface, Tmpl8::vec2(collisionObject[i].x, Ycurrent[i] + 2));
+			sprite.Draw(surface, Tmpl8::vec2(collisionObject[i].x, Ycurrent[i] + 2)); // drawing the coin/egg
 
 			
 		}
 	}
 }
 
-void Coin::resetCheck()
+void Coin::resetCheck() // resetting the check variables
 {
 	for (int i = 0; i < check.size(); i++)
 	{
