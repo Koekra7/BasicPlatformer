@@ -31,7 +31,7 @@ namespace Tmpl8
     std::vector<Rect> UIbuttons =  // ui buttons list
 	{
 		{350,250,85,30}, // #0 // start button
-		{710, 490, 80, 30}, // #1 // reset button
+		{710, 477, 70, 20}, // #1 // reset button
 		{50,110,90,20}, // #2 // upgrade speed button
 		{50,142,90,20} // #3 // upgrade jump button
     };
@@ -96,10 +96,22 @@ namespace Tmpl8
 		{
 			showUI = false;
 
+			float Damage = damageObject.getDamage(level->getLayer("Entities"), player.GetPosition(), hitboxes, playerSize); // Get the damage from the hitbox layer
+			playerHealth -= Damage;
+
+			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
+			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
+
+			// if the order looks wierd it is just so that everything dispalys correctly
+			tilemap4.Draw(screen, { 0, 0 }); // Draw the tilemap4 to the screen
 			tilemap.Draw(screen, { 0, 0 }); // Draw the tilemap to the screen
+			coin.addCoin(screen, coins, player.GetPosition(), playerSize, eggsprite, deltaTime); // drawing the egg/coin
+			player.Draw(screen, playersprite, false); // Draw the player to the screen
 			tilemap2.Draw(screen, { 0, 0 }); // Draw the tilemap2 to the screen
 			tilemap3.Draw(screen, { 0, 0 }); // Draw the tilemap3 to the screen
-			tilemap4.Draw(screen, { 0, 0 }); // Draw the tilemap4 to the screen
+
+			a_finish.LevelFinish(screen, finishRect, false, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
+			
 			
 			if (startedTimer == false) 
 			{
@@ -124,27 +136,14 @@ namespace Tmpl8
 			//	screen->Box(box.x, box.y, box.x + box.w, box.y + box.h, 0xff00ff); // Draw the hitbox to the screen
 			//}
 			
-			coin.addCoin(screen, coins, player.GetPosition(), playerSize, eggsprite, deltaTime); // drawing the egg/coin
 			
 
-			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
-			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player
-			player.Draw(screen, playersprite, true); // Draw the player to the screen
-
-			float Damage = damageObject.getDamage(level->getLayer("Entities"), player.GetPosition(), hitboxes, playerSize); // Get the damage from the hitbox layer
-			//std::cout << Damage << '\n'; // Print the damage to the console
-			playerHealth -= Damage;
-
-			
-
-			a_finish.LevelFinish(screen, finishRect, true, playerSize, player.GetPosition().x, player.GetPosition().y); // making / drawing the finish
-
-			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel != 1) // resetting the playerposition when the finish is reached
+			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel != 4) // resetting the playerposition when the finish is reached
 			{
 				loadLevel(currentLevel + 1);
 				coin.resetCheck();
 			}
-			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 1)
+			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 4)
 			{
 				finishtime = elapsed;
 				finishTime = elapsedTimeText;
@@ -161,7 +160,7 @@ namespace Tmpl8
 
 
 		
-		if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 1 && showUI == false) // when player finishes the game =)
+		if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 4 && showUI == false) // when player finishes the game =)
 		{
 			victory.Draw(screen, { 375,200 });
 			ui.resetPlay();
@@ -185,6 +184,7 @@ namespace Tmpl8
 			showUI = true;
 			coin.resetCheck();
 			coin.setCoins(0);
+			player.SetSpeed(1, 1);
 
 			if (elapsed - finishtime == 3)
 			{
@@ -200,7 +200,10 @@ namespace Tmpl8
 
 	const char* levelNames[] = { // all the levels
 		"Level_0",
-		"Level_1"
+		"Level_1",
+		"Level_2",
+		"Level_3",
+		"Level_4"
 	};
 	
 	void Game::loadLevel(int id) // change to using names

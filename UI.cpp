@@ -46,7 +46,7 @@ void UI::showMouse(bool showMouse, Tmpl8::Surface* screen, int mouseX, int mouse
 void UI::checkButtons()
 {
 	
-	for (int i = 0; i <= 3; i++)
+	for (int i = 0; i < buttons.size(); i++)
 	{
 		if (MouseX > buttons[i].x && 
 			MouseX < buttons[i].x + buttons[i].w && 
@@ -96,16 +96,17 @@ void UI::makeUsable(Player& player, Coin& coin)
 	case 1: //reset button
 
 		std::cout << "case1" << '\n';
+		exit(0);
 		break;
 	case 2: //upgrade speed
 
 		std::cout << "case2" << '\n';
 		
-		if (coin.getCoins() >= 3)
+		if (coin.getCoins() >= 5)
 		{
-			speedmod += 0.5;
+			speedmod += 0.1;
 			std::cout << "speedmod" << "=" << speedmod << '\n';
-			coin.setCoins(coin.getCoins() - 3);
+			coin.setCoins(coin.getCoins() - 5);
 		}
 		else
 		{
@@ -117,11 +118,11 @@ void UI::makeUsable(Player& player, Coin& coin)
 
 		std::cout << "case3" << '\n';
 
-		if (coin.getCoins() >= 3)
+		if (coin.getCoins() >= 5)
 		{
-			jumpmod += 0.5;
-			std::cout << "jumpmod" << "=" << speedmod << '\n';
-			coin.setCoins(coin.getCoins() - 3);
+			jumpmod += 0.1;
+			std::cout << "jumpmod" << "=" << jumpmod << '\n';
+			coin.setCoins(coin.getCoins() - 5);
 		}
 		else
 		{
@@ -130,6 +131,8 @@ void UI::makeUsable(Player& player, Coin& coin)
 
 		break;
 	}
+	
+	
 	player.SetSpeed(speedmod, jumpmod);
 }
 
