@@ -1,8 +1,8 @@
 for movement:
 
-jump = W or spacebar
-left = A
-right = D
+jump = W or spacebar or up_arrow
+left = A or left_arrow
+right = D or right_arrow
 
 for UI:
 use the mouse to click on the UI.

@@ -120,10 +120,10 @@ namespace Tmpl8
 			screen->Print(const_cast<char*>(elapsedTimeText.c_str()), 200, 10, 0xFFFFFF); // display the timer at 200,10
 
 			//setting some sprites
-			eggsprite = eggsheet.get()->GetSprite(0); //setting the egg/coin sprite
-			GameOver = GameOverSheet.get()->GetSprite(0);
-			playersprite = charactersheet.get()->GetSprite(player.currentframe()); // setting the player sprite
-			victory = victorySheet.get()->GetSprite(0);
+			eggsprite = eggsheet->GetSprite(0); //setting the egg/coin sprite
+			GameOver = GameOverSheet->GetSprite(0);
+			playersprite = charactersheet->GetSprite(player.currentframe()); // setting the player sprite
+			victory = victorySheet->GetSprite(0);
 
 			//for (const auto& box : hitboxes)
 			//{

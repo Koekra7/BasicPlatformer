@@ -125,9 +125,11 @@ void Player::keyUp(int key) // checking which key is released
 	switch (key)
 	{
 	case SDL_SCANCODE_W:
+	case SDL_SCANCODE_UP:
 		w = 0.0f;
 		break;
 	case SDL_SCANCODE_A:
+	case SDL_SCANCODE_LEFT:
 		a = 0.0f;
 		speedX = 0;
 		break;
@@ -135,6 +137,7 @@ void Player::keyUp(int key) // checking which key is released
 	//	s = 0.0f;
 	//	break;
 	case SDL_SCANCODE_D:
+	case SDL_SCANCODE_RIGHT:
 		d = 0.0f;
 		speedX = 0;
 		break;
@@ -149,15 +152,18 @@ void Player::keyDown(int key) // checking which key is pressed
 	switch (key)
 	{
 	case SDL_SCANCODE_W:
+	case SDL_SCANCODE_UP:
 		w = 1.0f;
 		break;
 	case SDL_SCANCODE_A:
+	case SDL_SCANCODE_LEFT:
 		a = 1.0f;
 		break;
 	//case SDL_SCANCODE_S:
 	//	s = 1.0f;
 	//	break;
 	case SDL_SCANCODE_D:
+	case SDL_SCANCODE_RIGHT:
 		d = 1.0f;
 		break;
 	case SDL_SCANCODE_SPACE:
@@ -166,7 +172,7 @@ void Player::keyDown(int key) // checking which key is pressed
 	}
 }
 
-int currentFrame;
+
 int Player::currentframe() // checking which frame to use
 {
 	if (d != 0)
