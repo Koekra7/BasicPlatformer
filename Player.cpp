@@ -15,8 +15,8 @@
 Player::Player(const Rect& playerSize, float speedX, float speedY) // constructor
 	: playerSize (playerSize), speedX(speedX), speedY(speedY)
 {
-	posX = playerSize.x; 
-	posY = playerSize.y;
+	posX = static_cast<float>(playerSize.x);
+	posY = static_cast<float>(playerSize.y);
 }
 
 
@@ -26,7 +26,7 @@ void Player::Draw(Tmpl8::Surface* surface, Sprite2D playersprite, bool showhitbo
 {
 	if (showhitbox)
 	{
-		surface->Box(posX, posY, playerSize.w + posX, playerSize.h + posY, 0x000000);
+		surface->Box(static_cast<int>(posX), static_cast<int>(posY), playerSize.w + static_cast<int>(posX), playerSize.h + static_cast<int>(posY), 0x000000);
 	}
 	playersprite.Draw(surface, Tmpl8::vec2(posX - 16, posY - 16)); // draw the player sprite
 }
@@ -54,11 +54,11 @@ void Player::addCollisions(bool addCollisions, std::vector <Rect> collisionObjec
 					// Player is to the left of the collider.
 					if (posX < collisionObject[i].x)
 					{
-						posX = collisionObject[i].x - playerSize.w;
+						posX = static_cast<float>(collisionObject[i].x - playerSize.w);
 					}
 					else // Player is to the right of the collider.
 					{
-						posX = collisionObject[i].x + collisionObject[i].w;
+						posX = static_cast<float>(collisionObject[i].x + collisionObject[i].w);
 					}
 					// Zero the x-velocity.
 					speedX = 0.0f;
@@ -68,12 +68,12 @@ void Player::addCollisions(bool addCollisions, std::vector <Rect> collisionObjec
 					// The players is above the collider.
 					if (posY < collisionObject[i].y)
 					{
-						posY = collisionObject[i].y - playerSize.h;
+						posY = static_cast<float>(collisionObject[i].y - playerSize.h);
 						hitTheGround = true; // allow the player to jump
 					}
 					else
 					{
-						posY = collisionObject[i].y + collisionObject[i].h;
+						posY = static_cast<float>(collisionObject[i].y + collisionObject[i].h);
 					}
 					speedY = 0.0f;
 				}
@@ -114,8 +114,8 @@ void Player::movePlayer(float maxSpeedX, float exeleration, bool addGrafity, flo
 
 	if (posX < 0) posX = 0, speedX = 0;
 	if (posY < 0) posY = 0, speedY = 0;
-	if (posX + playerSize.w > 800) posX = 800 - playerSize.w - 1, speedX = 0;
-	if (posY + playerSize.h > 512) posY = 512 - playerSize.h - 1, speedY = 0, hitTheGround = true;
+	if (posX + playerSize.w > 800) posX = 800.0f - static_cast<float>(playerSize.w) - 1.0f, speedX = 0;
+	if (posY + playerSize.h > 512) posY = 512.0f - static_cast<float>(playerSize.h) - 1.0f, speedY = 0, hitTheGround = true;
 
 }
 
@@ -190,7 +190,7 @@ int Player::currentframe() // checking which frame to use
 	return currentFrame;
 }
 
-void Player::playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth) // drawing the health bar
+void Player::playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, int currentHealth) // drawing the health bar
 {
 	surface->Box(playerHealthBar.x, playerHealthBar.y, playerHealthBar.x + playerHealthBar.w, playerHealthBar.y + playerHealthBar.h, 0x00ff00);
 	surface->Bar(playerHealthBar.x + 1, playerHealthBar.y + 1, playerHealthBar.x + playerHealthBar.w / 100 * currentHealth - 1, playerHealthBar.y + playerHealthBar.h - 1, 0xff0000);

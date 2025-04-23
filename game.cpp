@@ -95,7 +95,7 @@ namespace Tmpl8
 			showUI = false; // stopping the UI from displaying
 
 			float Damage = damageObject.getDamage(level->getLayer("Entities"), player.GetPosition(), hitboxes, playerSize); // Get the damage from the hitbox layer
-			playerHealth -= Damage; // setting the playerhealth
+			playerHealth -= static_cast<int>(Damage); // setting the playerhealth
 
 			player.addCollisions(true, hitboxes); //adds collision between player and hitboxes
 			player.movePlayer(400, 20, true, 450, deltaTime); // Move the player

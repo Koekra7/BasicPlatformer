@@ -16,7 +16,7 @@ public:
 	Tmpl8::vec2 GetSpeed() { return Tmpl8::vec2(speedX, speedY); } // returns the speed of the player
     void SetSpeed(float x, float y) { speedXboost = x; speedYboost = y; } // sets the speedboosts of the player
 	void setPlayerPos(float x, float y) { posX = x; posY = y; } // sets the position of the player
-	void playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, float currentHealth); // draws the health bar
+	void playerHealth(Tmpl8::Surface* surface, Rect playerHealthBar, int currentHealth); // draws the health bar
 	void addCollisions(bool addCollisions, std::vector <Rect> collisionObject); // adds collisions to the player
 	void movePlayer(float maxSpeedX, float exeleration, bool addGrafity, float jumpForce, float deltatime); // moves the player
 	void keyUp(int key); // checks which key is released

@@ -50,7 +50,7 @@ private:
 
 	float playerX;
 	float playerY;
-	float playerHealth;
+	int playerHealth;
 
 	std::shared_ptr<SpriteSheet> charactersheet;
 	std::shared_ptr<SpriteSheet> eggsheet;
