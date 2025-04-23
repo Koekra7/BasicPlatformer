@@ -13,7 +13,7 @@ Hitbox::Hitbox(const Rect& hitbox)
 
 void Hitbox::Draw(Tmpl8::Surface* surface, const Tmpl8::vec2& pos) // drawing the hitbox
 {
-	surface->Box(hitbox.x + pos.x, hitbox.y + pos.y, hitbox.x + hitbox.w + pos.x, hitbox.y + hitbox.h + pos.y, 0xff0000);
+	surface->Box(hitbox.x + static_cast<int>(pos.x), hitbox.y + static_cast<int>(pos.y), hitbox.x + hitbox.w + static_cast<int>(pos.x), hitbox.y + hitbox.h + static_cast<int>(pos.y), 0xff0000);
 	
 }
 
@@ -62,10 +62,10 @@ float DamageObject::getDamage(const ldtk::Layer& layer, Tmpl8::vec2 position, st
 	
 }
 
-std::vector <bool> check(1000);
-std::vector <bool> check2(1000);
-std::vector <bool> check3(1000);
-std::vector <float> Ycurrent(1000);
+std::vector <bool> check(1000); // for checking if the coin/egg is collected
+std::vector <bool> check2(1000); // for checking if the coin/egg is in its loop/animation
+std::vector <bool> check3(1000); // for checking if the coin/egg is in its original position
+std::vector <float> Ycurrent(1000); // for checking the Y position of the coin/egg
 
 
 void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, Tmpl8::vec2 playerPosition, Rect playersize, Sprite2D sprite, float deltatime )
@@ -77,7 +77,7 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 	{
 		if (check3[i] == false) 
 		{
-			Ycurrent[i] = collisionObject[i].y; // setting Ycurrent to the start pos of the coin/egg
+			Ycurrent[i] = static_cast<float>(collisionObject[i].y); // setting Ycurrent to the start pos of the coin/egg
 			check3[i] = true;
 		}
 		
@@ -117,7 +117,7 @@ void Coin::addCoin(Tmpl8::Surface* surface ,std::vector <Rect> collisionObject, 
 					}
 				}
 			}
-			sprite.Draw(surface, Tmpl8::vec2(collisionObject[i].x, Ycurrent[i] + 2)); // drawing the coin/egg
+			sprite.Draw(surface, Tmpl8::vec2(static_cast<float>(collisionObject[i].x), static_cast<float>(Ycurrent[i]) + 2.0f)); // drawing the coin/egg
 
 			
 		}

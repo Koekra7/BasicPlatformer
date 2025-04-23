@@ -143,13 +143,13 @@ namespace Tmpl8
 			}
 			if (a_finish.isFinishHit() == currentLevel + 1 && currentLevel == 4) // stopping the timer
 			{
-				finishtime = elapsed;
+				finishtime = static_cast<int>(elapsed);
 				finishTime = elapsedTimeText;
 				std::cout << elapsed << '\n';
 			}
 			if (playerHealth <= 0) // if player is dead stop the timer
 			{
-				finishtime = elapsed;
+				finishtime = static_cast<int>(elapsed);
 				finishTime = elapsedTimeText;
 			}
 
